@@ -11,7 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 import IndexReducer from './index-reducer';
 import IndexSagas from './index-sagas';
 
-import image from './constants/images';
+// import image from './constants/images';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,13 +21,12 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose
 /*eslint-enable */
 
-const initialState = {
-  imageUrl: image
-};
+// const initialState = {
+//   imageUrl: image
+// };
 
 const store = createStore(  
   IndexReducer,
-  initialState,
   composeSetup(applyMiddleware(sagaMiddleware)),
 );
 

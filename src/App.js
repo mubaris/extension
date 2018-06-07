@@ -15,21 +15,24 @@ const { Header, Footer, Content } = Layout;
 class App extends Component {
   componentDidMount() {
     const day = moment().format("YYYYMMDD");
-    axios.get(`https://api.eternityapp.co/v1/images/${day}`)
-      .then((res) => {
-        let imageUrl = res.data.image + `&w=${window.screen.width + 250}`;
-        const bg = new Image();
-        bg.src = imageUrl;
-        bg.onload = () => {
-          console.log(imageUrl);
-          this.props.dispatch({ type: 'BG_IMAGE_FETCH', url: imageUrl });
-        };
-      })
-      .catch(() => {});
+    const localDay = localStorage.getItem('date');
+    if (localDay !== day) {
+      axios.get(`https://api.eternityapp.co/v1/images/${day}`)
+        .then((res) => {
+          let imageUrl = res.data.image + `&w=${window.screen.width + 500}`;
+          const bg = new Image();
+          bg.src = imageUrl;
+          bg.onload = () => {
+            console.log(imageUrl);
+            this.props.dispatch({ type: 'BG_IMAGE_FETCH', data: res.data });
+          };
+        })
+        .catch(() => {});
+    }
   }
   render() {
     const style = {
-      backgroundImage: `url(${this.props.imageUrl.imageUrl})`,
+      backgroundImage: `url(${this.props.imageUrl.image.image})`,
     };
     return (
       <div className="container__layout" style={ style }>
