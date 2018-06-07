@@ -5,6 +5,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import Progress from './containers/progress';
+import Quote from './containers/quote';
+import Time from './containers/time';
 
 import 'antd/dist/antd.css';
 import './App.css';
@@ -45,7 +47,19 @@ class App extends Component {
               </Col>
             </Row>
           </Content>
-          <Footer className="layout__footer">.</Footer>
+          <Footer className="layout__footer">
+            <Row type="flex" align="bottom" style={{ height: "100%" }}>
+              <Col span={6} style={{ textAlign: 'left' }}>
+                <Time />
+              </Col>
+              <Col span={12} style={{ textAlign: 'center' }}>
+                <Quote />
+              </Col>
+              <Col span={6} style={{ textAlign: 'right' }}>
+                <a href="https://twitter.com/Mubaris_NK" target="_blank" rel="noopener noreferrer" className="author__text">Made with ♥ by Mubaris NK</a>
+              </Col>
+            </Row>
+          </Footer>
         </Layout>
       </div>
     );
