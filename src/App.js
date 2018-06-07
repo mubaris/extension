@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Layout, Row, Col } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { connect } from 'react-redux';
+
+import Progress from './containers/progress';
 
 import 'antd/dist/antd.css';
 import './App.css';
@@ -32,9 +34,15 @@ class App extends Component {
     return (
       <div className="container__layout" style={ style }>
         <Layout className="layout">
-          <Header className="layout__header">Header</Header>
-          <Content style={{ textAlign: 'center' }} className="layout__content">Content</Content>
-          <Footer className="layout__footer">Footer</Footer>
+          <Header className="layout__header">.</Header>
+          <Content style={{ textAlign: 'center' }} className="layout__content">
+            <Row type="flex" align="middle" className="full__height">
+              <Col span={12} offset={6} className="full__height center__content">
+                <Progress />
+              </Col>
+            </Row>
+          </Content>
+          <Footer className="layout__footer">.</Footer>
         </Layout>
       </div>
     );

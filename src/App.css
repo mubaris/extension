@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+body, h1, h2, h3, h4, h5, h6, p {
+  color: rgb(255, 255, 255);
+}
+
 .container__layout {
   height: 100%;
   width: 100%;
@@ -22,10 +29,60 @@
 .layout__content {
   background: rgba(255, 255, 255, 0);
   height: 80%;
+  color: rgb(255, 255, 255) !important;
 }
 
 .layout__footer {
   background: rgba(255, 255, 255, 0);
   height: 10%;
   color: rgb(255, 255, 255);
+}
+
+.full__height {
+  height: 100%;
+}
+
+.center__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center__bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@keyframes progress-bar {
+  0%   {stroke-opacity : 1;}
+  50%  {stroke-opacity: 0.5;}
+  100% {stroke-opacity : 1;}
+}
+.rc-progress-line-path {
+  animation: progress-bar 2.5s linear infinite;
+}
+
+.white {
+  color: rgb(255, 255, 255);
+}
+
+.header__progress {
+  font-family: 'PT Sans Caption', sans-serif;
+  /* font-weight: bold; */
+  font-size: 400%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.percent {
+  font-family: 'Source Code Pro', monospace;
+  color: rgb(255, 255, 255) !important;
+  white-space: pre-wrap;
+  font-size: 250%;
+}
+
+.progress__bar {
+  margin: 1%;
 }
