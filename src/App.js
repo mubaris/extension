@@ -2,22 +2,15 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import 'antd/dist/antd.css';
-import images from './constants/images';
-import logo from './logo.svg';
 import './App.css';
 
 const { Header, Footer, Content } = Layout;
 
 
-const tempImg = images[Math.floor(Math.random()*images.length)];
-
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.imageUrl = tempImg.image;
-  }
   componentDidMount() {
     const day = moment().format("YYYYMMDD");
     axios.get(`https://api.eternityapp.co/v1/images/${day}`)
@@ -27,14 +20,17 @@ class App extends Component {
         bg.src = imageUrl;
         bg.onload = () => {
           console.log(imageUrl);
-          this.imageUrl = imageUrl;
+          this.props.dispatch({ type: 'BG_IMAGE_FETCH', url: imageUrl });
         };
       })
       .catch(() => {});
   }
   render() {
+    const style = {
+      backgroundImage: `url(${this.props.imageUrl.imageUrl})`,
+    };
     return (
-      <div className="container__layout" style={{ backgroundImage: `url(${this.imageUrl})` }}>
+      <div className="container__layout" style={ style }>
         <Layout className="layout">
           <Header className="layout__header">Header</Header>
           <Content style={{ textAlign: 'center' }} className="layout__content">Content</Content>
@@ -45,4 +41,17 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    imageUrl: state.imageUrl
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default App;

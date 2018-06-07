@@ -1,25 +1,31 @@
 .container__layout {
   height: 100%;
   width: 100%;
+  /* background-image: linear-gradient(135deg, #0FF0B3 0%,#036ED9 100%); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .layout {
-  background: #fff;
+  background: rgba(255, 255, 255, 0);
   height: 100%;
   width: 100%;
+  color: rgb(255, 255, 255);
 }
 
 .layout__header {
-  background: #ffffff00;
+  background: rgba(255, 255, 255, 0);
   height: 10%;
 }
 
 .layout__content {
-  background: #ffffff00;
+  background: rgba(255, 255, 255, 0);
   height: 80%;
 }
 
 .layout__footer {
-  background: #ffffff00;
+  background: rgba(255, 255, 255, 0);
   height: 10%;
+  color: rgb(255, 255, 255);
 }
