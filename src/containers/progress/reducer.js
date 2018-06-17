@@ -48,6 +48,18 @@ const progressReducer = (state = initalState, action) => {
       return {
         ...state
       }
+    case 'DECIMAL_CHANGE':
+      localStorage.setItem('decimal', action.value);
+      return {
+        ...state,
+        decimal: action.value
+      }
+    case 'METRIC_CHANGE':
+      localStorage.setItem('metric', action.value);
+      return {
+        ...state,
+        metric: action.value
+      }
     default:
       return state;
   }

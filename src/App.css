@@ -24,6 +24,7 @@ body, h1, h2, h3, h4, h5, h6, p {
 .layout__header {
   background: rgba(255, 255, 255, 0);
   height: 10%;
+  padding: 10px 20px;
 }
 
 .layout__content {
@@ -100,4 +101,8 @@ body, h1, h2, h3, h4, h5, h6, p {
 
 .quote__author {
   font-size: 85%;
+}
+
+.config__button {
+  cursor: pointer;
 }

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Progress from './containers/progress';
 import Quote from './containers/quote';
 import Time from './containers/time';
+import Config from './containers/config';
 
 import 'antd/dist/antd.css';
 import './App.css';
@@ -39,7 +40,13 @@ class App extends Component {
     return (
       <div className="container__layout" style={ style }>
         <Layout className="layout">
-          <Header className="layout__header">.</Header>
+          <Header className="layout__header">
+            <Row type="flex" align="top" style={{ height: "100%" }}>
+              <Col span={4}>
+                <Config style={{ padding: 0 }} />
+              </Col>
+            </Row>
+          </Header>
           <Content style={{ textAlign: 'center' }} className="layout__content">
             <Row type="flex" align="middle" className="full__height">
               <Col span={12} offset={6} className="full__height center__content">
