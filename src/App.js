@@ -8,6 +8,7 @@ import Progress from './containers/progress';
 import Quote from './containers/quote';
 import Time from './containers/time';
 import Config from './containers/config';
+import gradient from './constants/gradients';
 
 import 'antd/dist/antd.css';
 import './App.css';
@@ -34,9 +35,18 @@ class App extends Component {
     }
   }
   render() {
-    const style = {
+    let style = {
       backgroundImage: `url(${this.props.imageUrl.image.image})`,
-    };
+    }; 
+    if (this.props.imageUrl.type === 'image') {
+      style = {
+        backgroundImage: `url(${this.props.imageUrl.image.image})`,
+      };
+    } else if (this.props.imageUrl.type === 'gradient') {
+      style = {
+        backgroundImage: gradient,
+      };
+    }
     return (
       <div className="container__layout" style={ style }>
         <Layout className="layout">

@@ -14,6 +14,7 @@ class SettingsDisplay extends Component {
     super(props);
     this.onChangeSlider = this.onChangeSlider.bind(this);
     this.onChangeMetric = this.onChangeMetric.bind(this);
+    this.onChangeType = this.onChangeType.bind(this);
   }
   onChangeSlider(value) {
     this.props.dispatch({
@@ -24,6 +25,12 @@ class SettingsDisplay extends Component {
   onChangeMetric(e) {
     this.props.dispatch({
       type: 'METRIC_CHANGE',
+      value: e.target.value
+    });
+  }
+  onChangeType(e) {
+    this.props.dispatch({
+      type: 'BG_TYPE_CHANGE',
       value: e.target.value
     });
   }
@@ -51,11 +58,9 @@ class SettingsDisplay extends Component {
           {...formItemLayout}
           label="Background"
         >
-          <RadioGroup value={this.props.progress.metric} onChange={this.onChangeMetric}>
-            <Radio value="year">Year</Radio>
-            <Radio value="month">Month</Radio>
-            <Radio value="week">Week</Radio>
-            <Radio value="day">Day</Radio>
+          <RadioGroup value={this.props.imageUrl.type} onChange={this.onChangeType}>
+            <Radio value="image">Daily Image</Radio>
+            <Radio value="gradient">Random Gradient</Radio>
           </RadioGroup>
         </Form.Item>
       </div>
