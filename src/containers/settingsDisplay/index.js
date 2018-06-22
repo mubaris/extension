@@ -6,8 +6,13 @@ const RadioGroup = Radio.Group;
 
 const formItemLayout = {
   labelCol: { span: 6 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 18 },
 };
+
+const style = {
+  display: 'flex',
+  flexDirection: 'column'
+}
 
 class SettingsDisplay extends Component {
   constructor(props) {
@@ -36,7 +41,7 @@ class SettingsDisplay extends Component {
   }
   render() {
     return (
-      <div>
+      <div style={style}>
         <Form.Item
           {...formItemLayout}
           label="Decimal Points"
@@ -57,12 +62,16 @@ class SettingsDisplay extends Component {
         <Form.Item
           {...formItemLayout}
           label="Background"
+          style={{ flexGrow: 1 }}
         >
           <RadioGroup value={this.props.imageUrl.type} onChange={this.onChangeType}>
             <Radio value="image">Daily Image</Radio>
             <Radio value="gradient">Random Gradient</Radio>
           </RadioGroup>
         </Form.Item>
+        <a href="https://buymeacoff.ee/mubaris" target="_blank" rel="noopener noreferrer">
+          <img src="bmc.png" alt="Buy Me A Coffee" />
+        </a>
       </div>
     );
   }
