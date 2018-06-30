@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faCogs from '@fortawesome/fontawesome-free-solid/faCogs';
-import { Popover } from 'antd';
+import { Modal, notification } from 'antd';
 
 import SettingsDisplay from '../settingsDisplay';
-
-const display = (
-  <div style={{height: '300px', width: '600px'}}>
-    <SettingsDisplay />
-  </div>
-);
 
 class Config extends Component {
   constructor(props) {
@@ -19,20 +13,36 @@ class Config extends Component {
   }
   handleVisibleChange() {
     this.props.dispatch({ type: 'SETTINGS_TOGGLE' });
+    if (this.props.settings.visible) {
+      this.openNotificationWithIcon('success');
+    }
   }
+  openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: 'Success',
+      description: 'Settings Saved',
+    });
+  };
   render() {
     return (
-      <Popover
-        content={display}
-        placement="bottomLeft"
-        trigger="click"
-        visible={this.props.settings.visible}
-        onVisibleChange={this.handleVisibleChange}
-      >
-        <span className="config__button">
+      <div>
+        <span className="config__button" onClick={this.handleVisibleChange}>
           <FontAwesomeIcon icon={faCogs} size="2x" />
         </span>
-      </Popover>
+        <Modal
+          visible={this.props.settings.visible}
+          title="Settings"
+          onOk={this.handleVisibleChange}
+          onCancel={this.handleVisibleChange}
+          footer={[
+            <a href="https://buymeacoff.ee/mubaris" target="_blank" rel="noopener noreferrer">
+              <img src="bmc.png" alt="Buy Me A Coffee" />
+            </a>
+          ]}
+        >
+          <SettingsDisplay />
+        </Modal>
+      </div>
     )
   }
 }

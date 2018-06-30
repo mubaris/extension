@@ -69,9 +69,6 @@ class SettingsDisplay extends Component {
             <Radio value="gradient">Random Gradient</Radio>
           </RadioGroup>
         </Form.Item>
-        <a href="https://buymeacoff.ee/mubaris" target="_blank" rel="noopener noreferrer">
-          <img src="bmc.png" alt="Buy Me A Coffee" />
-        </a>
       </div>
     );
   }
