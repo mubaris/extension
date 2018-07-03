@@ -8,6 +8,7 @@ import Progress from './containers/progress';
 import Quote from './containers/quote';
 import Time from './containers/time';
 import Config from './containers/config';
+import Accounts from './containers/accounts';
 import gradient from './constants/gradients';
 
 import 'antd/dist/antd.css';
@@ -51,9 +52,12 @@ class App extends Component {
       <div className="container__layout" style={ style }>
         <Layout className="layout">
           <Header className="layout__header">
-            <Row type="flex" align="top" style={{ height: "100%" }}>
+            <Row type="flex" justify="space-between" align="top" style={{ height: "100%" }}>
               <Col span={4}>
                 <Config style={{ padding: 0 }} />
+              </Col>
+              <Col span={4}>
+                <Accounts />
               </Col>
             </Row>
           </Header>

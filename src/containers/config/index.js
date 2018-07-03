@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faCogs from '@fortawesome/fontawesome-free-solid/faCogs';
-import { Modal, notification } from 'antd';
+// import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+// import faCogs from '@fortawesome/fontawesome-free-solid/faCogs';
+import { Modal, notification, Icon } from 'antd';
 
 import SettingsDisplay from '../settingsDisplay';
 
@@ -27,7 +27,7 @@ class Config extends Component {
     return (
       <div>
         <span className="config__button" onClick={this.handleVisibleChange}>
-          <FontAwesomeIcon icon={faCogs} size="2x" />
+          <Icon type="setting" style={{ fontSize: '200%' }} />
         </span>
         <Modal
           visible={this.props.settings.visible}
