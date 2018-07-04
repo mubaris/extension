@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 // import faCogs from '@fortawesome/fontawesome-free-solid/faCogs';
-import { Modal, Button, Tabs, notification, Icon, Card } from 'antd';
+import { Modal, Button, Tabs, notification, Icon, Card, Input, Row, Col } from 'antd';
 
 import Signup from '../signup';
 import Signin from '../signin';
@@ -10,7 +10,17 @@ import { subscriptionStatus } from '../../utilities';
 
 const TabPane = Tabs.TabPane;
 
+// const InputButton = Input.Search;
+
 class AccountsDisplay extends Component {
+  constructor(props) {
+    super(props);
+    this.handleCouponChange = this.handleCouponChange.bind(this);
+    this.state = { coupon: '' };
+  }
+  handleCouponChange(event) {
+    this.setState({ coupon: event.target.value });
+  }
   render() {
     const account = JSON.parse(localStorage.getItem('ACCOUNT'));
     let user = {};
@@ -20,14 +30,14 @@ class AccountsDisplay extends Component {
     if (this.props.isLoggedIn) {
       const showButton = (this.props.pack === 'Free');
       // getUserDetails();
-      const url = `https://checkout.paddle.com/checkout/product/533570?guest_email=${user.email}&passthrough=${user.email}`
+      const url = `https://checkout.paddle.com/checkout/product/533570?guest_email=${user.email}&passthrough=${user.email}&coupon=${this.state.coupon}`;
       return (
         <div>
-          <Card title="Details" style={{ width: 300 }} extra={<Button onClick={() => {this.props.clickSignOut()}}>Sign Out</Button>}>
+          <Card title="Details" extra={<Button onClick={() => {this.props.clickSignOut()}}>Sign Out</Button>}>
             <p style={{ color: '#000' }}>Name: {user.username}</p>
             <p style={{ color: '#000' }}>Email: {user.email}</p>
             <p style={{ color: '#000' }}>Package: {this.props.pack}</p>
-            {showButton && <a href={url} target="_blank">Upgrade to Pro! $5/m</a>}
+            {showButton && <Row gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button href={url} type="primary" target="_blank">Upgrade to Pro! $5/m</Button></Col></Row>}
           </Card>
         </div>
       )
