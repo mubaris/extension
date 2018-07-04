@@ -14,6 +14,11 @@ class SignupForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // console.log('Received values of form: ', values);
+        // if (values.username.length < 4) {
+        //   this.props.dispatch({ type: 'SIGNUP_ERROR', error: "Name should be at least 4 letters long!" });
+        // } else {
+        //   this.props.dispatch({ type: 'SIGNUP_REQUEST', data: values });
+        // }
         this.props.dispatch({ type: 'SIGNUP_REQUEST', data: values });
       }
     });
@@ -24,7 +29,8 @@ class SignupForm extends Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
           {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your name!' }],
+            rules: [{ required: true, message: 'Please input your name (length > 4)!', pattern: /^([a-zA-Z0-9_-]){4,}$/
+          }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Name" />
           )}
