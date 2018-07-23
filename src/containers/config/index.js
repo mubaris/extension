@@ -30,6 +30,7 @@ class Config extends Component {
           <Icon type="setting" style={{ fontSize: '200%' }} />
         </span>
         <Modal
+          width="60vw"
           visible={this.props.settings.visible}
           title="Settings"
           onOk={this.handleVisibleChange}
