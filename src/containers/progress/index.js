@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import moment from 'moment';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
-// import { Progress } from 'antd';
+ import { notification } from 'antd';
 
 const progressStyles = {
   width: '100%',
@@ -16,17 +16,33 @@ class ProgressDisplay extends Component {
     super(props);
     this.clickMetric = this.clickMetric.bind(this);
   }
+  openNotificationWithIcon = (type, send) => {
+    notification[type]({
+      message: 'Alert',
+      description: send,
+    });
+  };
   clickMetric() {
     this.props.dispatch({ type: 'CLICK_METRIC' });
   }
   componentDidMount() {
     setInterval(() => {
-      this.props.dispatch({ type: 'TIME_UPDATE' })
+      this.props.dispatch({ type: 'TIME_UPDATE' });
+      if (this.props.progress.percent < 0) {
+        this.props.dispatch({ type: 'METRIC_CHANGE', value: 'day' });
+        this.openNotificationWithIcon('info', "Custom progress hasn't started yet");
+      } else if (this.props.progress.percent > 100) {
+        this.props.dispatch({ type: 'METRIC_CHANGE', value: 'day' });
+        this.openNotificationWithIcon('info', "Custom progress has ended");
+      }
     }, 50);
   }
   render() {
     const metric = this.props.progress.metric;
-    const displayMetric = metric.charAt(0).toUpperCase() + metric.slice(1).toLowerCase();
+    let displayMetric = metric.charAt(0).toUpperCase() + metric.slice(1).toLowerCase();
+    if (metric === 'custom') {
+      displayMetric = this.props.progress.custom_title;
+    }
     return (
       <div style={{ height: '100%' }} className="center__bar">
         <h1 className="white header__progress" onClick={this.clickMetric}>
@@ -43,6 +59,7 @@ class ProgressDisplay extends Component {
           />
         </div>
         <h1 className="percent">{this.props.progress.percent} %</h1>
+        <h2 className="subtitle">{this.props.progress.custom_subtitle}</h2>
       </div>
     );
   }

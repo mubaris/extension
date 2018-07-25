@@ -85,6 +85,15 @@ body, h1, h2, h3, h4, h5, h6, p {
   font-size: 250%;
 }
 
+.subtitle {
+  font-family: 'PT Sans Caption', sans-serif;
+  color: rgb(255, 255, 255) !important;
+  white-space: pre-wrap;
+  font-size: 175%;
+  margin: 0;
+  padding: 0;
+}
+
 .progress__bar {
   margin: 1%;
 }

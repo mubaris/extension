@@ -31,6 +31,7 @@ class Config extends Component {
         </span>
         <Modal
           width="60vw"
+          style={{ top: 20 }}
           visible={this.props.settings.visible}
           title="Settings"
           onOk={this.handleVisibleChange}
