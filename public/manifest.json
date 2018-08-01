@@ -28,7 +28,7 @@
     "identity"
   ],
   "short_name": "Eternity",
-  "version": "2.4",
+  "version": "2.4.1",
   "web_accessible_resources": [
     "index.html"
   ]

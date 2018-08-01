@@ -83,6 +83,14 @@ const progressReducer = (state = initalState, action) => {
       };
     case 'CLICK_METRIC':
       if (state.metric === 'year') {
+        const pack = localStorage.getItem('PACKAGE');
+        if (pack === 'FREE') {
+          localStorage.setItem('metric', 'day');
+          return {
+            ...state,
+            metric: 'day'
+          }
+        }
         localStorage.setItem('metric', 'custom');
         return {
           ...state,
