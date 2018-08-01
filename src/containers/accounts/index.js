@@ -30,14 +30,14 @@ class AccountsDisplay extends Component {
     if (this.props.isLoggedIn) {
       const showButton = (this.props.pack === 'Free');
       // getUserDetails();
-      const url = `https://checkout.paddle.com/checkout/product/533570?guest_email=${user.email}&passthrough=${user.email}&coupon=${this.state.coupon}`;
+      const url = `https://checkout.paddle.com/checkout/product/535700?guest_email=${user.email}&passthrough=${user.email}&coupon=${this.state.coupon}`;
       return (
         <div>
           <Card title="Details" extra={<Button onClick={() => {this.props.clickSignOut()}}>Sign Out</Button>}>
             <p style={{ color: '#000' }}>Name: {user.username}</p>
             <p style={{ color: '#000' }}>Email: {user.email}</p>
             <p style={{ color: '#000' }}>Package: {this.props.pack}</p>
-            {showButton && <Row gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button href={url} type="primary" target="_blank">Upgrade to Pro! $5/m</Button></Col></Row>}
+            {showButton && <Row gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button href={url} type="primary" target="_blank">Upgrade to Pro! $3/m</Button></Col></Row>}
           </Card>
         </div>
       )

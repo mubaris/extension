@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Slider, Form, Radio, DatePicker, Badge, Input, Select } from 'antd';
+import { Slider, Form, Radio, DatePicker, Badge, Input, Select, TimePicker } from 'antd';
 import moment from 'moment';
+
+import { subscriptionStatus } from '../../utilities';
 
 const { RangePicker } = DatePicker;
 
@@ -23,9 +25,14 @@ const dateFormat = 'YYYY-MM-DD HH:mm';
 
 const weekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// const hourArray = ['12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM',
+//                     '11AM', '12PM', '1PM', '2PM', ]
+
 class SettingsDisplay extends Component {
   constructor(props) {
     super(props);
+    this.getPackageDetails = this.getPackageDetails.bind(this);
+    this.isLoggedIn = this.isLoggedIn.bind(this);
     this.onChangeSlider = this.onChangeSlider.bind(this);
     this.onChangeMetric = this.onChangeMetric.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
@@ -33,6 +40,10 @@ class SettingsDisplay extends Component {
     this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangeSubtitle = this.onChangeSubtitle.bind(this);
     this.onWeekdayChange = this.onWeekdayChange.bind(this);
+    this.onHourChange = this.onHourChange.bind(this);
+  }
+  onHourChange(time,timeString) {
+    this.props.dispatch({ type: 'CHANGE_DAYSTART', time, timeString });
   }
   onWeekdayChange(value) {
     this.props.dispatch({ type: 'CHANGE_WEEKDAY', value });
@@ -69,11 +80,44 @@ class SettingsDisplay extends Component {
       value: e.target.value
     });
   }
+  isLoggedIn() {
+    if (this.props.accounts.userType === 'GUEST') {
+      return false;
+    } else if (this.props.accounts.userType === 'LOGGEDIN') {
+      return true;
+    }
+    return false;
+  }
+  getPackageDetails() {
+    if (this.isLoggedIn()) {
+      const pack = this.props.accounts.package;
+      if (pack === 'FREE') {
+        return 'Free';
+      } else if (pack === 'PAID') {
+        return 'Pro';
+      } else {
+        return 'Free';
+      }
+    } else {
+      return 'Free';
+    }
+  }
+  componentDidMount() {
+    if (this.isLoggedIn()) {
+      const account = JSON.parse(localStorage.getItem('ACCOUNT'));
+      subscriptionStatus(account.user.email)
+      .then(data => this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data }))
+      .catch(reason => console.log(reason.message));
+    }
+  }
   render() {
+    const pack = this.getPackageDetails();
+    const disb = (pack === 'Pro') ? false : true;
     let datepicker = '';
     if (this.props.progress.custom_start) {
       datepicker = (<RangePicker 
         showTime={{ format: 'HH:mm' }}
+        disabled={disb}
         format={dateFormat}
         placeholder={['Start Time', 'End Time']}
         defaultValue={[moment(this.props.progress.custom_start, dateFormat), 
@@ -83,10 +127,28 @@ class SettingsDisplay extends Component {
     } else {
       datepicker = (<RangePicker 
         showTime={{ format: 'HH:mm' }}
+        disabled={disb}
         format={dateFormat}
         placeholder={['Start Time', 'End Time']}
         onChange={this.onRangeChange} 
       />);
+    }
+    let timepicker = '';
+    if (this.props.progress.custom_hour) {
+      timepicker = (<TimePicker 
+        format="HH:mm"
+        disabled={disb}
+        minuteStep={15}
+        defaultValue={moment(this.props.progress.custom_hour, "HH")}
+        onChange={this.onHourChange} 
+        />);
+    } else {
+      timepicker = (<TimePicker 
+        format="HH:mm"
+        minuteStep={15}
+        disabled={disb}
+        onChange={this.onHourChange} 
+        />);
     }
     return (
       <div className="modal__contents" style={style}>
@@ -107,7 +169,7 @@ class SettingsDisplay extends Component {
             <Radio value="month">Month</Radio>
             <Radio value="week">Week</Radio>
             <Radio value="day">Day</Radio>
-            <Radio value="custom">Custom <Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></Radio>
+            <Radio value="custom" disabled={disb}>Custom <Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></Radio>
           </RadioGroup>
         </Form.Item>
         <Form.Item
@@ -134,6 +196,7 @@ class SettingsDisplay extends Component {
           <Input 
             onChange={this.onChangeTitle}
             placeholder="Title of Custom Progress Bar"
+            disabled={disb}
             defaultValue={this.props.progress.custom_title}
           />
         </Form.Item>
@@ -144,6 +207,7 @@ class SettingsDisplay extends Component {
           <Input 
             onChange={this.onChangeSubtitle}
             placeholder="Subtitle"
+            disabled={disb}
             defaultValue={this.props.progress.custom_subtitle}
           />
         </Form.Item>
@@ -151,7 +215,7 @@ class SettingsDisplay extends Component {
           {...formItemLayout}
           label="Start of the week"
         >
-          <Select defaultValue={weekArray[this.props.progress.custom_weekday]} onChange={this.onWeekdayChange}>
+          <Select disabled={disb} defaultValue={weekArray[this.props.progress.custom_weekday]} onChange={this.onWeekdayChange}>
             <Option value={0}>Sunday</Option>
             <Option value={1}>Monday</Option>
             <Option value={2}>Tuesday</Option>
@@ -160,6 +224,12 @@ class SettingsDisplay extends Component {
             <Option value={5}>Friday</Option>
             <Option value={6}>Saturday</Option>
           </Select>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label="Start of the day"
+        >
+          {timepicker}
         </Form.Item>
       </div>
     );

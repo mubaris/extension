@@ -1,8 +1,17 @@
-@import url('https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700');
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700');
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
 body, h1, h2, h3, h4, h5, h6, p {
   color: rgb(255, 255, 255);
+  font-family: 'Work Sans', sans-serif;
+}
+
+span, label, div, input {
+  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
+}
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
 }
 
 .container__layout {
@@ -71,31 +80,35 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 .header__progress {
-  font-family: 'PT Sans Caption', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
   /* font-weight: bold; */
-  font-size: 400%;
+  font-size: 600%;
   margin: 0;
   cursor: pointer;
+  text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
 }
 
 .percent {
   font-family: 'Source Code Pro', monospace;
   color: rgb(255, 255, 255) !important;
   white-space: pre-wrap;
-  font-size: 250%;
+  font-size: 320%;
+  text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
 }
 
 .subtitle {
-  font-family: 'PT Sans Caption', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
   color: rgb(255, 255, 255) !important;
   white-space: pre-wrap;
-  font-size: 175%;
+  font-size: 250%;
   margin: 0;
   padding: 0;
+  text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
 }
 
 .progress__bar {
   margin: 1%;
+  text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
 }
 
 .author__text {

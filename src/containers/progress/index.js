@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import moment from 'moment';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
  import { notification } from 'antd';
+//  import moment from 'moment';
 
 const progressStyles = {
   width: '100%',
@@ -15,6 +15,33 @@ class ProgressDisplay extends Component {
   constructor(props) {
     super(props);
     this.clickMetric = this.clickMetric.bind(this);
+
+    // const addit = moment.duration("22:00");
+    // const start = moment().startOf('day').add(addit);
+    // const end = moment().endOf('day').add(addit);
+    // const now = moment();
+    // // console.log(start, end);
+    // const duration = moment.duration(now.diff(start)).asMilliseconds();
+    // const total = moment.duration(end.diff(start)).asMilliseconds();
+    // let percent = duration * 100 / total;
+    // const out = percent.toFixed(2);
+    // console.log(start, end, out);
+
+    // const x = 3;
+    // const neg =  x - 7;
+    // const addit = moment.duration("06:00");
+    // const start = moment().day(neg).startOf('day').add(addit);
+    // const end = moment().day(x).startOf('day').add(addit);
+    // const now = moment();
+    // // console.log(start, end);
+    // const duration = moment.duration(now.diff(start)).asMilliseconds();
+    // const total = moment.duration(end.diff(start)).asMilliseconds();
+    // let percent = duration * 100 / total;
+    // if (percent > 100) {
+    //   percent = percent - 100;
+    // }
+    // const out = percent.toFixed(2);
+    // console.log(start, end, out);
   }
   openNotificationWithIcon = (type, send) => {
     notification[type]({

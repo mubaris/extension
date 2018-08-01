@@ -7,7 +7,8 @@ const initalState = {
   custom_end: localStorage.getItem('custom_end'),
   custom_title: localStorage.getItem('custom_title') || 'Custom',
   custom_subtitle: localStorage.getItem('custom_subtitle') || '',
-  custom_weekday: localStorage.getItem('custom_weekday') || 0
+  custom_weekday: localStorage.getItem('custom_weekday') || 0,
+  custom_hour: localStorage.getItem('custom_hour') || 0
 };
 
 const dateFormat = 'YYYY-MM-DD HH:mm';
@@ -29,13 +30,40 @@ const progressReducer = (state = initalState, action) => {
         };
       }
       if (state.metric === 'week' && state.custom_weekday) {
-        const neg =  state.custom_weekday + 1 - 7;
-        const start = moment().startOf('week').day(neg)
-        const end = moment().endOf('week').day(state.custom_weekday + 1);
+        const neg =  state.custom_weekday - 7;
+        let start = moment().day(neg).startOf('day');
+        let end = moment().day(state.custom_weekday).startOf('day');
+        if (state.custom_hour) {
+          const addit = moment.duration(state.custom_hour);
+          start = moment().day(neg).startOf('day').add(addit);
+          end = moment().day(state.custom_weekday).startOf('day').add(addit);
+        }
         const now = moment();
+        // console.log(start, end);
         const duration = moment.duration(now.diff(start)).asMilliseconds();
         const total = moment.duration(end.diff(start)).asMilliseconds();
-        const percent = duration * 100 / total;
+        let percent = duration * 100 / total;
+        if (percent > 100) {
+          percent = percent - 100;
+        }
+        const out = percent.toFixed(state.decimal);
+        return {
+          ...state,
+          percent: out
+        };
+      }
+      if (state.metric === 'day' && state.custom_hour) {
+        const addit = moment.duration(state.custom_hour);
+        const start = moment().startOf('day').add(addit);
+        const end = moment().endOf('day').add(addit);
+        const now = moment();
+        // console.log(start, end);
+        const duration = moment.duration(now.diff(start)).asMilliseconds();
+        const total = moment.duration(end.diff(start)).asMilliseconds();
+        let percent = duration * 100 / total;
+        if (percent < 0) {
+          percent = percent + 100;
+        }
         const out = percent.toFixed(state.decimal);
         return {
           ...state,
@@ -107,6 +135,12 @@ const progressReducer = (state = initalState, action) => {
         ...state,
         custom_start: action.dateString[0],
         custom_end: action.dateString[1]
+      }
+    case 'CHANGE_DAYSTART':
+      localStorage.setItem('custom_hour', action.timeString);
+      return {
+        ...state,
+        custom_hour: action.timeString
       }
     case 'CHANGE_TITLE_CUSTOM':
       localStorage.setItem('custom_title', action.value);
