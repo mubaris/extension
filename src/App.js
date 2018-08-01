@@ -63,7 +63,7 @@ class App extends Component {
           </Header>
           <Content style={{ textAlign: 'center' }} className="layout__content">
             <Row type="flex" align="middle" className="full__height">
-              <Col span={12} offset={6} className="full__height center__content">
+              <Col span={18} offset={3} className="full__height center__content">
                 <Progress />
               </Col>
             </Row>
