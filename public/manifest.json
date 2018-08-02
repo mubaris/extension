@@ -12,7 +12,7 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "description": "The Digital Adderall",
+  "description": "Keep track of your growth with progress bars!",
   "icons": {
     "128": "icon128.png",
     "16": "icon16.png",
@@ -28,8 +28,9 @@
     "identity"
   ],
   "short_name": "Eternity",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "web_accessible_resources": [
     "index.html"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'"
 }
