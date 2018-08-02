@@ -138,6 +138,10 @@ span, label, div, input {
   color: #000000;
 }
 
+.modal__contents p {
+  color: #000000;
+}
+
 .modal__contents h3 {
   color: #000000;
 }
@@ -145,3 +149,57 @@ span, label, div, input {
 iframe#drift-widget.drift-widget-welcome-online {
   bottom: 25px !important;
 }
+
+.ant-switch-checked {
+  background-color: #c56cd6;
+}
+
+.ant-switch-inner {
+  font-size: 125%;
+}
+
+.ant-radio-button-wrapper-checked {
+  border-color: #c56cd6;
+}
+
+.ant-radio-button-wrapper-checked {
+  border-color: #c56cd6;
+  color: #c56cd6;
+  box-shadow: -1px 0 0 0 #c56cd6;
+}
+
+.ant-radio-button-wrapper-checked:hover {
+  border-color: #c56cd6;
+}
+
+.ant-radio-button-wrapper-checked:first-child {
+  border-color: #c56cd6;
+}
+
+.hoverable:hover {
+  color: #c56cd6;
+}
+
+::selection {
+  background: #c56cd6;
+  color: #fff;
+}
+
+ul {
+  color: #c56cd6;
+}
+
+ul li span {
+  color: #000000;
+}
+
+.pricing__modal .ant-btn-primary {
+  color: #fff;
+  background-color: #c56cd6;
+  border-color: #c56cd6;
+}
+
+/* .ant-radio-button-wrapper-checked {
+  border-color: #c56cd6;
+  color: #c56cd6;
+} */
