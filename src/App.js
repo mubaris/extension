@@ -3,6 +3,7 @@ import { Layout, Row, Col } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import Trianglify from 'trianglify';
 
 import Progress from './containers/progress';
 import Quote from './containers/quote';
@@ -46,6 +47,17 @@ class App extends Component {
     } else if (this.props.imageUrl.type === 'gradient') {
       style = {
         backgroundImage: gradient,
+      };
+    } else if (this.props.imageUrl.type === 'trianglify') {
+      const pattern = Trianglify({
+        width: window.innerWidth,
+        height: window.innerHeight
+        // variance: 0.7,
+        // cell_size: 90
+      });
+      const tria = `url(${pattern.png()})`;
+      style = {
+        backgroundImage: tria,
       };
     }
     return (

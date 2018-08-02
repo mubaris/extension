@@ -180,6 +180,7 @@ class SettingsDisplay extends Component {
           <RadioGroup value={this.props.imageUrl.type} onChange={this.onChangeType}>
             <Radio value="image">Daily Image</Radio>
             <Radio value="gradient">Random Gradient</Radio>
+            <Radio value="trianglify">Trianglify <Badge count="New" style={{ backgroundColor: '#1890ff' }} /></Radio>
           </RadioGroup>
         </Form.Item>
         <h3>Custom Progress Bar <Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></h3>
