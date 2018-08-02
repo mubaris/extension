@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 // import faCogs from '@fortawesome/fontawesome-free-solid/faCogs';
-import { Modal, Button, Tabs, notification, Icon, Card, Input, Row, Col } from 'antd';
+import { Button, Tabs, notification, Icon, Card, Input, Row, Col, Popover } from 'antd';
 
 import Signup from '../signup';
 import Signin from '../signin';
@@ -43,10 +43,12 @@ class AccountsDisplay extends Component {
       )
     } else {
       return (
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Sign Up" key="1"><Signup/></TabPane>
-          <TabPane tab="Sign In" key="2"><Signin/></TabPane>
-        </Tabs>
+        <div style={{ width: "400px" }}>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Sign Up" key="1"><Signup/></TabPane>
+            <TabPane tab="Sign In" key="2"><Signin/></TabPane>
+          </Tabs>
+        </div>
       );
     }
   }
@@ -119,23 +121,25 @@ class Accounts extends Component {
       show = <Icon type="user" style={{ fontSize: '200%' }} />;
     }
     return (
-      <div>
-        <div className="accounts__button" onClick={this.handleVisibleChange}>
+      <div className="accounts__button">
+        {/* <div className="accounts__button" onClick={this.handleVisibleChange}>
           {show}
-        </div>
-        <Modal
+        </div> */}
+        <Popover
+          placement="rightBottom"
+          content={<AccountsDisplay isLoggedIn={this.isLoggedIn()} clickSignOut={this.signOut} pack={this.getPackageDetails()} />}
           visible={this.props.accounts.visible}
           title="Accounts"
-          onOk={this.handleVisibleChange}
-          onCancel={this.handleVisibleChange}
+          trigger="click"
+          onVisibleChange={this.handleVisibleChange}
           footer={[
             <a href="https://buymeacoff.ee/mubaris" target="_blank" rel="noopener noreferrer">
               <img src="bmc.png" alt="Buy Me A Coffee" />
             </a>
           ]}
         >
-          <AccountsDisplay isLoggedIn={this.isLoggedIn()} clickSignOut={this.signOut} pack={this.getPackageDetails()} />
-        </Modal>
+          {show}
+        </Popover>
       </div>
     )
   }
