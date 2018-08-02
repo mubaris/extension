@@ -28,9 +28,9 @@
     "identity"
   ],
   "short_name": "Eternity",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "web_accessible_resources": [
     "index.html"
   ],
-  "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://www.google-analytics.com https://js.driftt.com https://event.api.drift.com https://customer.api.drift.com https://chat.api.drift.com https://conversation.api.drift.com https://118382-32.live.api.drift.com; object-src 'self'"
 }

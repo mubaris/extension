@@ -141,3 +141,7 @@ span, label, div, input {
 .modal__contents h3 {
   color: #000000;
 }
+
+iframe#drift-widget.drift-widget-welcome-online {
+  bottom: 25px !important;
+}
