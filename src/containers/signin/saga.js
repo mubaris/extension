@@ -75,7 +75,7 @@ function* authorize(data) {
       }
     } else {
       // console.log(response.toString());
-      yield put({ type: 'SIGNIN_ERROR', error: "Email Already Registered! Please Sign In" });
+      yield put({ type: 'SIGNIN_ERROR', error: JSON.stringify(response.errors) });
     }
   } catch (e) {
     yield put({ type: 'SIGNIN_ERROR', error: e.message });

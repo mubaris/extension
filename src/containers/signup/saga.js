@@ -74,8 +74,7 @@ function* authorize(data) {
         yield put({ type: 'SIGNUP_SUCCESS_GLOBAL' });
       }
     } else {
-      // console.log(response.toString());
-      yield put({ type: 'SIGNUP_ERROR', error: "Email Already Registered! Please Sign In" });
+      yield put({ type: 'SIGNUP_ERROR', error: JSON.stringify(response.errors) });
     }
   } catch (e) {
     yield put({ type: 'SIGNUP_ERROR', error: e.message });
