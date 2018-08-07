@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
- import { notification } from 'antd';
+import { notification } from 'antd';
+import ga from '../../analytics';
 //  import moment from 'moment';
 
 const progressStyles = {
@@ -50,6 +51,21 @@ class ProgressDisplay extends Component {
     });
   };
   clickMetric() {
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Progress',
+        action: 'Change Progress',
+        label: `${localStorage.getItem('PACKAGE')} - User`
+      });
+    } else{
+      ga.event({
+        category: 'Progress',
+        action: 'Change Progress',
+        label: 'FREE - Guest'
+      });
+    }
     this.props.dispatch({ type: 'CLICK_METRIC' });
   }
   componentDidMount() {

@@ -4,12 +4,29 @@ import axios from 'axios';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
 
+import ga from '../../analytics';
+
 class Quote extends Component {
   constructor(props) {
     super(props);
     this.tweetQuote = this.tweetQuote.bind(this);
   }
   tweetQuote() {
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Quote',
+        action: 'Click Tweet',
+        label: `${localStorage.getItem('PACKAGE')} - User`
+      });
+    } else{
+      ga.event({
+        category: 'Quote',
+        action: 'Click Tweet',
+        label: 'FREE - Guest'
+      });
+    }
     const content = '?text="' + this.props.quote.quote + '" - ' + this.props.quote.author + '&via=theEternityApp';
     const url = 'https://twitter.com/intent/tweet' + content;
     window.open(url, '_blank', 'height=500,width=500');

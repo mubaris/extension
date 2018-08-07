@@ -13,6 +13,7 @@
     "rc-progress": "^2.2.5",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-ga": "^2.5.3",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Slider, Form, Radio, DatePicker, Badge, Input, Select, TimePicker } from 'antd';
+import { Slider, Form, Radio, DatePicker, Badge, Input, Select, TimePicker, message } from 'antd';
 import moment from 'moment';
 
 import { subscriptionStatus } from '../../utilities';
+
+import ga from '../../analytics';
 
 const { RangePicker } = DatePicker;
 
@@ -41,18 +43,102 @@ class SettingsDisplay extends Component {
     this.onChangeSubtitle = this.onChangeSubtitle.bind(this);
     this.onWeekdayChange = this.onWeekdayChange.bind(this);
     this.onHourChange = this.onHourChange.bind(this);
+    this.clickPro = this.clickPro.bind(this);
+  }
+  clickPro() {
+    const pack = this.getPackageDetails();
+    const disb = (pack === 'Pro') ? false : true;
+    if (disb) {
+      const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+      if (user) {
+        message.error('You need to Upgrade to Pro to use this feature');
+        ga.set({ userId: user.user.email });
+        ga.event({
+          category: 'Config',
+          action: 'Click Pro Feature',
+          label: `${localStorage.getItem('PACKAGE')} - User`,
+        });
+      } else {
+        message.error('Sign in and Upgrade to Pro to use this feature');
+        ga.event({
+          category: 'Config',
+          action: 'Click Pro Feature',
+          label: 'FREE - Guest',
+        });
+      }
+    }
   }
   onHourChange(time,timeString) {
     this.props.dispatch({ type: 'CHANGE_DAYSTART', time, timeString });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Change Daystart',
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Change Daystart',
+        label: 'FREE - Guest',
+      });
+    }
   }
   onWeekdayChange(value) {
     this.props.dispatch({ type: 'CHANGE_WEEKDAY', value });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Change Weekstart',
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Change Weekstart',
+        label: 'FREE - Guest',
+      });
+    }
   }
   onChangeSubtitle(e) {
     this.props.dispatch({ type: 'CHANGE_SUBTITLE_CUSTOM', value: e.target.value });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Change Subtitle',
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Change Subtitle',
+        label: 'FREE - Guest',
+      });
+    }
   }
   onChangeTitle(e) {
     this.props.dispatch({ type: 'CHANGE_TITLE_CUSTOM', value: e.target.value });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Change Title',
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Change Title',
+        label: 'FREE - Guest',
+      });
+    }
   }
   onRangeChange(date, dateString) {
     console.log(date, dateString);
@@ -61,24 +147,88 @@ class SettingsDisplay extends Component {
       date,
       dateString
     });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Change Range',
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Change Range',
+        label: 'FREE - Guest',
+      });
+    }
   }
   onChangeSlider(value) {
     this.props.dispatch({
       type: 'DECIMAL_CHANGE',
       value
     });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Change Decimal',
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+        value
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Change Decimal',
+        label: 'FREE - Guest',
+        value
+      });
+    }
   }
   onChangeMetric(e) {
+    const value = e.target.value;
     this.props.dispatch({
       type: 'METRIC_CHANGE',
-      value: e.target.value
+      value
     });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: `Change Metric to ${value}`,
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: `Change Metric to ${value}`,
+        label: 'FREE - Guest',
+      });
+    }
   }
   onChangeType(e) {
+    const value = e.target.value;
     this.props.dispatch({
       type: 'BG_TYPE_CHANGE',
-      value: e.target.value
+      value
     });
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: `Change BG to ${value}`,
+        label: `${localStorage.getItem('PACKAGE')} - User`,
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: `Change BG to ${value}`,
+        label: 'FREE - Guest',
+      });
+    }
   }
   isLoggedIn() {
     if (this.props.accounts.userType === 'GUEST') {
@@ -169,7 +319,7 @@ class SettingsDisplay extends Component {
             <Radio value="month">Month</Radio>
             <Radio value="week">Week</Radio>
             <Radio value="day">Day</Radio>
-            <Radio value="custom" disabled={disb}>Custom <Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></Radio>
+            <Radio value="custom" disabled={disb}><span onClick={this.clickPro}>Custom </span><Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></Radio>
           </RadioGroup>
         </Form.Item>
         <Form.Item
@@ -184,54 +334,56 @@ class SettingsDisplay extends Component {
           </RadioGroup>
         </Form.Item>
         <h3>Custom Progress Bar <Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></h3>
-        <Form.Item
-          {...formItemLayout}
-          label="Interval"
-        >
-          {datepicker}
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label="Title"
-        >
-          <Input 
-            onChange={this.onChangeTitle}
-            placeholder="Title of Custom Progress Bar"
-            disabled={disb}
-            defaultValue={this.props.progress.custom_title}
-          />
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label="Subtitle"
-        >
-          <Input 
-            onChange={this.onChangeSubtitle}
-            placeholder="Subtitle"
-            disabled={disb}
-            defaultValue={this.props.progress.custom_subtitle}
-          />
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label="Start of the week"
-        >
-          <Select disabled={disb} defaultValue={weekArray[this.props.progress.custom_weekday]} onChange={this.onWeekdayChange}>
-            <Option value={0}>Sunday</Option>
-            <Option value={1}>Monday</Option>
-            <Option value={2}>Tuesday</Option>
-            <Option value={3}>Wednesday</Option>
-            <Option value={4}>Thursday</Option>
-            <Option value={5}>Friday</Option>
-            <Option value={6}>Saturday</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label="Start of the day"
-        >
-          {timepicker}
-        </Form.Item>
+        <div onClick={this.clickPro}>
+          <Form.Item
+            {...formItemLayout}
+            label="Interval"
+          >
+            {datepicker}
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="Title"
+          >
+            <Input 
+              onChange={this.onChangeTitle}
+              placeholder="Title of Custom Progress Bar"
+              disabled={disb}
+              defaultValue={this.props.progress.custom_title}
+            />
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="Subtitle"
+          >
+            <Input 
+              onChange={this.onChangeSubtitle}
+              placeholder="Subtitle"
+              disabled={disb}
+              defaultValue={this.props.progress.custom_subtitle}
+            />
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="Start of the week"
+          >
+            <Select disabled={disb} defaultValue={weekArray[this.props.progress.custom_weekday]} onChange={this.onWeekdayChange}>
+              <Option value={0}>Sunday</Option>
+              <Option value={1}>Monday</Option>
+              <Option value={2}>Tuesday</Option>
+              <Option value={3}>Wednesday</Option>
+              <Option value={4}>Thursday</Option>
+              <Option value={5}>Friday</Option>
+              <Option value={6}>Saturday</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="Start of the day"
+          >
+            {timepicker}
+          </Form.Item>
+        </div>
       </div>
     );
   }

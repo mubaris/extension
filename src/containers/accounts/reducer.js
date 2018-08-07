@@ -1,3 +1,4 @@
+import ga from '../../analytics';
 
 const initialState = {
   visible: false,
@@ -26,6 +27,13 @@ const accountReducer = (state = initialState, action) => {
         userType: 'LOGGEDIN'
       }
     case 'LOGOUT':
+      const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Accounts',
+        action: 'Open Pricing',
+        label: `${localStorage.getItem('PACKAGE')} - User`
+      });
       localStorage.removeItem('ACCOUNT');
       localStorage.removeItem('PACKAGE');
       localStorage.setItem('USERTYPE', 'GUEST');

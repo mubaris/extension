@@ -6,15 +6,50 @@ import { Modal, notification, Icon } from 'antd';
 
 import SettingsDisplay from '../settingsDisplay';
 
+import ga from '../../analytics';
+
 class Config extends Component {
   constructor(props) {
     super(props)
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
   }
+  clickCoffee() {
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    if (user) {
+      ga.set({ userId: user.user.email });
+      ga.event({
+        category: 'Config',
+        action: 'Click Coffee',
+        label: `${localStorage.getItem('PACKAGE')} - User`
+      });
+    } else{
+      ga.event({
+        category: 'Config',
+        action: 'Click Coffee',
+        label: 'FREE - Guest'
+      });
+    }
+  }
   handleVisibleChange() {
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
     this.props.dispatch({ type: 'SETTINGS_TOGGLE' });
     if (this.props.settings.visible) {
       this.openNotificationWithIcon('success');
+    } else {
+      if (user) {
+        ga.set({ userId: user.user.email });
+        ga.event({
+          category: 'Config',
+          action: 'Click Config',
+          label: `${localStorage.getItem('PACKAGE')} - User`
+        });
+      } else{
+        ga.event({
+          category: 'Config',
+          action: 'Click Config',
+          label: 'FREE - Guest'
+        });
+      }
     }
   }
   openNotificationWithIcon = (type) => {
@@ -37,7 +72,7 @@ class Config extends Component {
           onOk={this.handleVisibleChange}
           onCancel={this.handleVisibleChange}
           footer={[
-            <a href="https://buymeacoff.ee/mubaris" target="_blank" rel="noopener noreferrer">
+            <a href="https://buymeacoff.ee/mubaris" onClick={this.clickCoffee} target="_blank" rel="noopener noreferrer">
               <img src="bmc.png" alt="Buy Me A Coffee" />
             </a>
           ]}

@@ -7,6 +7,7 @@ import { Modal, Button, Tabs, notification, Icon, Card, Input, Row, Col, Popover
 import Signup from '../signup';
 import Signin from '../signin';
 import { subscriptionStatus } from '../../utilities';
+import ga from '../../analytics';
 
 import calendar from './calendar.svg';
 
@@ -25,16 +26,44 @@ class AccountsDisplay extends Component {
   }
   onSwitch(e) {
     const checked = e.target.value === 'y';
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    ga.set({ userId: user.user.email });
     if (checked) {
       this.setState({ amount: '$20', unit: '/y' });
+      ga.event({
+        category: 'Accounts',
+        action: 'Switch to Yearly',
+        label: 'FREE - User'
+      });
     }
     else {
       this.setState({ amount: '$3', unit: '/mo' });
+      ga.event({
+        category: 'Accounts',
+        action: 'Switch to Monthly',
+        label: 'FREE - User'
+      });
     }
   }
   closePopup() {
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    ga.set({ userId: user.user.email });
+    ga.event({
+      category: 'Accounts',
+      action: 'Open Pricing',
+      label: 'FREE - User'
+    });
     this.props.closeSide();
     this.openPricing();
+  }
+  clickSubscribe() {
+    const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    ga.set({ userId: user.user.email });
+    ga.event({
+      category: 'Accounts',
+      action: 'Open Paddle',
+      label: 'FREE - User'
+    });
   }
   openPricing() {
     const curr = this.state.pricing;
@@ -70,7 +99,7 @@ class AccountsDisplay extends Component {
                     <Col span={12}>
                       <img width="75%" src={calendar} alt="Time Management Illustration" />
                       <br />
-                      <Row className="pricing__modal" style={{ paddingTop: '50px' }} gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button href={url} type="primary" target="_blank">SUBSCRIBE</Button></Col></Row>
+                      <Row className="pricing__modal" style={{ paddingTop: '50px' }} gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button onClick={this.clickSubscribe} href={url} type="primary" target="_blank">SUBSCRIBE</Button></Col></Row>
                     </Col>
                     <Col span={12}>
                       <p style={{ textAlign: "center", margin: 0 }} ><span style={{ fontSize: '750%', color: "#c56cd6" }} >{this.state.amount}</span><span style={{ color: "#c56cd6", fontSize: "200%" }} >{this.state.unit}</span></p>
