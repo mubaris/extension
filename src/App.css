@@ -3,15 +3,15 @@
 
 body, h1, h2, h3, h4, h5, h6, p {
   color: rgb(255, 255, 255);
-  font-family: 'Work Sans', sans-serif;
+  font-family: system-ui, 'Work Sans', sans-serif;
 }
 
 span, label, div, input {
-  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
 }
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
 }
 
 .container__layout {
@@ -80,7 +80,7 @@ span, label, div, input {
 }
 
 .header__progress {
-  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
   /* font-weight: bold; */
   font-size: 600%;
   margin: 0;
@@ -97,7 +97,7 @@ span, label, div, input {
 }
 
 .subtitle {
-  font-family: -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
   color: rgb(255, 255, 255) !important;
   white-space: pre-wrap;
   font-size: 250%;
@@ -197,6 +197,10 @@ ul li span {
   color: #fff;
   background-color: #c56cd6;
   border-color: #c56cd6;
+}
+
+svg.rc-progress-line {
+  border-radius: 22px;
 }
 
 /* .ant-radio-button-wrapper-checked {
