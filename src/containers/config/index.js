@@ -71,11 +71,6 @@ class Config extends Component {
           title="Settings"
           onOk={this.handleVisibleChange}
           onCancel={this.handleVisibleChange}
-          footer={[
-            <a href="https://buymeacoff.ee/mubaris" onClick={this.clickCoffee} target="_blank" rel="noopener noreferrer">
-              <img src="bmc.png" alt="Buy Me A Coffee" />
-            </a>
-          ]}
         >
           <SettingsDisplay />
         </Modal>

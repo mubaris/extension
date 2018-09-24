@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col, Icon } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -89,7 +89,7 @@ class App extends Component {
                 <Quote />
               </Col>
               <Col span={6} style={{ textAlign: 'right' }}>
-                <a href="https://twitter.com/Mubaris_NK" target="_blank" rel="noopener noreferrer" className="author__text">Made with ♥ by Mubaris NK</a>
+                <a href="https://twitter.com/progressdash" target="_blank" rel="noopener noreferrer" className="author__text"><Icon type="twitter" /></a>
               </Col>
             </Row>
           </Footer>

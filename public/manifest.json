@@ -19,7 +19,7 @@
     "48": "icon48.png"
   },
   "manifest_version": 2,
-  "name": "Eternity",
+  "name": "Progress Dashboard",
   "offline_enabled": true,
   "permissions": [
     "gcm",
@@ -27,8 +27,8 @@
     "storage",
     "identity"
   ],
-  "short_name": "Eternity",
-  "version": "2.4.11",
+  "short_name": "Progress Dashboard",
+  "version": "2.4.12",
   "web_accessible_resources": [
     "index.html"
   ],
