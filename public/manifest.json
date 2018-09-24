@@ -28,7 +28,7 @@
     "identity"
   ],
   "short_name": "Progress Dashboard",
-  "version": "2.4.12",
+  "version": "2.4.13",
   "web_accessible_resources": [
     "index.html"
   ],
