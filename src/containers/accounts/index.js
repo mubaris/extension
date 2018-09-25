@@ -25,9 +25,11 @@ class AccountsDisplay extends Component {
     this.onPurchase = this.onPurchase.bind(this);
     this.onPurchaseFail = this.onPurchaseFail.bind(this);
     this.clickSubscribe = this.clickSubscribe.bind(this);
-    let prod = this.props.prods.find(o => o.sku === 'plus_yearly_30');
-    let amount = prod.currency + prod.price;
-    if (!amount) {
+    let amount = '';
+    try {
+      let prod = this.props.prods.find(o => o.sku === 'plus_yearly_30');
+      amount = prod.currency + prod.price;
+    } catch (error) {
       amount = '$30';
     }
     this.state = { coupon: '', pricing: false, amount, unit: '/y', sku: 'plus_yearly_30' };
@@ -235,13 +237,13 @@ class Accounts extends Component {
   }
   componentDidMount() {
     console.log("Component DID Mount");
+    window.google.payments.inapp.getSkuDetails({
+      'parameters': {'env': 'prod'},
+      'success': this.onSkuDetails,
+      'failure': this.onSkuDetailsFail
+    });
     if (this.isLoggedIn()) {
       console.log("LOGGED IN inside");
-      window.google.payments.inapp.getSkuDetails({
-        'parameters': {'env': 'prod'},
-        'success': this.onSkuDetails,
-        'failure': this.onSkuDetailsFail
-      });
       const account = JSON.parse(localStorage.getItem('ACCOUNT'));
       subscriptionStatus(account.user.email)
         .then(data => this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data }))
