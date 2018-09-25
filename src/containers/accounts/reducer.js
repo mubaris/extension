@@ -49,6 +49,32 @@ const accountReducer = (state = initialState, action) => {
         ...state,
         package: action.data.package
       }
+    case 'GET_IN_APP_PURCHASES':
+      let prods = [];
+      console.log("EXECUTING GET_IN_APP_PURCHASES ", action);
+      action.products.forEach(product => {
+        const sku = product.sku;
+        const price = product.prices[0].valueMicros / 1000000;
+        let currency = product.prices[0].currencyCode;
+        if (currency === 'USD') {
+          currency = '$';
+        } else if (currency === 'INR') {
+          currency = '₹';
+        } else if (currency === 'EUR') {
+          currency = '€';
+        } else if (currency === 'GBP') {
+          currency = '£';
+        } else if (currency === 'JPY' || currency === 'CNY') {
+          currency = '¥';
+        } else {
+          currency += ' ';
+        }
+        prods.push( { sku, price, currency } )
+      });
+      return {
+        ...state,
+        prods
+      }
     default:
       return state;
   }

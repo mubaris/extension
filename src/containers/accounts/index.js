@@ -6,7 +6,7 @@ import { Modal, Button, Tabs, notification, Icon, Card, Input, Row, Col, Popover
 
 import Signup from '../signup';
 import Signin from '../signin';
-import { subscriptionStatus } from '../../utilities';
+import { subscriptionStatus, googlePayPurchases } from '../../utilities';
 import ga from '../../analytics';
 
 import calendar from './calendar.svg';
@@ -22,14 +22,24 @@ class AccountsDisplay extends Component {
     this.closePopup = this.closePopup.bind(this);
     this.handleCouponChange = this.handleCouponChange.bind(this);
     this.openPricing = this.openPricing.bind(this);
-    this.state = { coupon: '', pricing: false, amount: '$20', unit: '/y' };
+    this.onPurchase = this.onPurchase.bind(this);
+    this.onPurchaseFail = this.onPurchaseFail.bind(this);
+    this.clickSubscribe = this.clickSubscribe.bind(this);
+    let prod = this.props.prods.find(o => o.sku === 'plus_yearly_30');
+    let amount = prod.currency + prod.price;
+    if (!amount) {
+      amount = '$30';
+    }
+    this.state = { coupon: '', pricing: false, amount, unit: '/y', sku: 'plus_yearly_30' };
   }
   onSwitch(e) {
     const checked = e.target.value === 'y';
     const user = JSON.parse(localStorage.getItem('ACCOUNT'));
     ga.set({ userId: user.user.email });
     if (checked) {
-      this.setState({ amount: '$20', unit: '/y' });
+      let prod = this.props.prods.find(o => o.sku === 'plus_yearly_30');
+      const amount = prod.currency + prod.price;
+      this.setState({ amount, unit: '/y', sku: 'plus_yearly_30' });
       ga.event({
         category: 'Accounts',
         action: 'Switch to Yearly',
@@ -37,7 +47,9 @@ class AccountsDisplay extends Component {
       });
     }
     else {
-      this.setState({ amount: '$3', unit: '/mo' });
+      let prod = this.props.prods.find(o => o.sku === 'plus_monthly_3');
+      const amount = prod.currency + prod.price;
+      this.setState({ amount, unit: '/mo', sku: 'plus_monthly_3' });
       ga.event({
         category: 'Accounts',
         action: 'Switch to Monthly',
@@ -56,7 +68,21 @@ class AccountsDisplay extends Component {
     this.props.closeSide();
     this.openPricing();
   }
+  onPurchase(resp) {
+    console.log(resp);
+    this.props.onPurchase(resp);
+  }
+  onPurchaseFail(resp) {
+    console.log(resp);
+    this.props.onPurchaseFail(resp);
+  }
   clickSubscribe() {
+    window.google.payments.inapp.buy({
+      'parameters': {'env': 'prod'},
+      'sku': this.state.sku,
+      'success': this.onPurchase,
+      'failure': this.onPurchaseFail
+    });
     const user = JSON.parse(localStorage.getItem('ACCOUNT'));
     ga.set({ userId: user.user.email });
     ga.event({
@@ -94,12 +120,12 @@ class AccountsDisplay extends Component {
             {/* {showButton && <Row gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button href={url} type="primary" target="_blank">Upgrade to Pro! $3/m</Button></Col></Row>} */}
             {
               showButton && <div><Button type="primary" onClick={() => this.closePopup()}>UPGRADE!</Button>
-                <Modal title="Get Eternity Pro" className="modal__contents" style={{ backgroundColor: "#c56cd6" }} width="60vw" footer={null} visible={this.state.pricing} onCancel={() => this.openPricing()} onOk={() => this.openPricing()} >
+                <Modal title="Get Progress Plus" className="modal__contents" style={{ backgroundColor: "#c56cd6" }} width="60vw" footer={null} visible={this.state.pricing} onCancel={() => this.openPricing()} onOk={() => this.openPricing()} >
                   <Row type="flex" justify="center">
                     <Col span={12}>
                       <img width="75%" src={calendar} alt="Time Management Illustration" />
                       <br />
-                      <Row className="pricing__modal" style={{ paddingTop: '50px' }} gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button onClick={this.clickSubscribe} href={url} type="primary" target="_blank">SUBSCRIBE</Button></Col></Row>
+                      <Row className="pricing__modal" style={{ paddingTop: '50px' }} gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button onClick={this.clickSubscribe} type="primary">SUBSCRIBE</Button></Col></Row>
                     </Col>
                     <Col span={12}>
                       <p style={{ textAlign: "center", margin: 0 }} ><span style={{ fontSize: '750%', color: "#c56cd6" }} >{this.state.amount}</span><span style={{ color: "#c56cd6", fontSize: "200%" }} >{this.state.unit}</span></p>
@@ -148,6 +174,12 @@ class Accounts extends Component {
     this.isLoggedIn = this.isLoggedIn.bind(this);
     this.signOut = this.signOut.bind(this);
     this.getPackageDetails = this.getPackageDetails.bind(this);
+    this.onSkuDetails = this.onSkuDetails.bind(this);
+    this.onSkuDetailsFail = this.onSkuDetailsFail.bind(this);
+    this.onPurchase = this.onPurchase.bind(this);
+    this.onPurchaseFail = this.onPurchaseFail.bind(this);
+    this.onLicenseUpdate = this.onLicenseUpdate.bind(this);
+    this.onLicenseUpdateFailed = this.onLicenseUpdateFailed.bind(this);
   }
   handleVisibleChange() {
     this.props.dispatch({ type: 'ACCOUNTS_TOGGLE' });
@@ -162,18 +194,69 @@ class Accounts extends Component {
       placement: 'topLeft',
     });
   }
+  onLicenseUpdateFailed(resp) {
+    console.log('LICENSE UPDAT FAIL', resp);
+  }
+  onLicenseUpdate(resp) {
+    console.log("EXECUTE onLicenseUpdate", resp);
+    const prods = resp.response.details;
+    let found = false
+    prods.forEach(prod => {
+      if (prod.sku === 'plus_monthly_3' || prod.sku === 'plus_yearly_30') {
+        const data = { package: 'PAID' };
+        this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data });
+        found = true
+      }
+    })
+    if (!found) {
+      const data = { package: 'FREE' };
+      this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data });
+    }
+  }
+  onPurchase(resp) {
+    console.log("EXECUTE onPurchase", resp);
+    this.props.dispatch({ type: 'PURCHASE_SUCCES', resp });
+    googlePayPurchases(this.onLicenseUpdate, this.onLicenseUpdateFailed);
+  }
+  onPurchaseFail(resp) {
+    console.log("EXECUTE onPurchaseFail", resp);
+    this.props.dispatch({ type: 'PURCHASE_FAIL', resp });
+    this.openNotificationWithIcon('error', 'Payment Failed');
+  }
+  onSkuDetails(resp) {
+    const products = resp.response.details.inAppProducts;
+    console.log("EXECUTE onSkuDetails", resp, products);
+    this.props.dispatch({ type: 'GET_IN_APP_PURCHASES', products });
+  }
+  onSkuDetailsFail(resp) {
+    console.log("EXECUTE onSkuDetailsFail", resp)
+    this.props.dispatch({ type: 'GET_IN_APP_PURCHASES_FAIL', resp });
+    this.openNotificationWithIcon('error', 'Unable to connect to Chrome Store. Make sure you\'re logged in');
+  }
   componentDidMount() {
+    console.log("Component DID Mount");
     if (this.isLoggedIn()) {
+      console.log("LOGGED IN inside");
+      window.google.payments.inapp.getSkuDetails({
+        'parameters': {'env': 'prod'},
+        'success': this.onSkuDetails,
+        'failure': this.onSkuDetailsFail
+      });
       const account = JSON.parse(localStorage.getItem('ACCOUNT'));
       subscriptionStatus(account.user.email)
-      .then(data => this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data }))
-      .catch(reason => console.log(reason.message));
+        .then(data => this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data }))
+        .catch(reason => console.log(reason.message));
+      googlePayPurchases(this.onLicenseUpdate, this.onLicenseUpdateFailed);
     }
   }
   componentDidUpdate(prevProps) {
     if ((prevProps.accounts.userType !== this.props.accounts.userType) && this.props.accounts.userType === 'LOGGEDIN') {
       this.openNotificationWithIcon('success', 'Now you\'re signed in!');
-      // console.log('componentDidUpdate', prevProps.accounts.userType, this.props.accounts.userType)
+      window.google.payments.inapp.getSkuDetails({
+        'parameters': {'env': 'prod'},
+        'success': this.onSkuDetails,
+        'failure': this.onSkuDetailsFail
+      });
     }
     if ((prevProps.accounts.userType !== this.props.accounts.userType) && this.props.accounts.userType === 'GUEST') {
       this.openNotificationWithIcon('success', 'Now you\'re signed out!');
@@ -214,7 +297,7 @@ class Accounts extends Component {
         </div> */}
         <Popover
           placement="rightBottom"
-          content={<AccountsDisplay closeSide={this.handleVisibleChange} isLoggedIn={this.isLoggedIn()} clickSignOut={this.signOut} pack={this.getPackageDetails()} />}
+          content={<AccountsDisplay onPurchase={this.onPurchase} onPurchaseFail={this.onPurchaseFail} prods={this.props.accounts.prods} closeSide={this.handleVisibleChange} isLoggedIn={this.isLoggedIn()} clickSignOut={this.signOut} pack={this.getPackageDetails()} />}
           visible={this.props.accounts.visible}
           title="Accounts"
           trigger="click"

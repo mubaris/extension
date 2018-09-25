@@ -35,10 +35,20 @@ function getUserDetails() {
 // }
 
 async function subscriptionStatus(email) {
-    const url = 'https://api.eternityapp.co/v1/accounts/subscription/status?mail=' + email;
-    let response = await fetch(url);
-    let data = await response.json();
-    return data;
+    if (email) {
+        const url = 'https://api.eternityapp.co/v1/accounts/subscription/status?mail=' + email;
+        let response = await fetch(url);
+        let data = await response.json();
+        return data;
+    }
 }
 
-export { getUserDetails, subscriptionStatus };
+function googlePayPurchases(onLicenseUpdate, onLicenseUpdateFailed) {
+    window.google.payments.inapp.getPurchases({
+        'parameters': {env: "prod"},
+        'success': onLicenseUpdate,
+        'failure': onLicenseUpdateFailed
+    });
+}
+
+export { getUserDetails, subscriptionStatus, googlePayPurchases };
