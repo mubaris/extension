@@ -122,7 +122,7 @@ class AccountsDisplay extends Component {
             {/* {showButton && <Row gutter={8}><Col span={12}><Input placeholder="Discount Code!" onChange={this.handleCouponChange}/></Col><Col span={12}><Button href={url} type="primary" target="_blank">Upgrade to Pro! $3/m</Button></Col></Row>} */}
             {
               showButton && <div><Button type="primary" onClick={() => this.closePopup()}>UPGRADE!</Button>
-                <Modal title="Get Progress Plus" className="modal__contents" style={{ backgroundColor: "#c56cd6" }} width="60vw" footer={null} visible={this.state.pricing} onCancel={() => this.openPricing()} onOk={() => this.openPricing()} >
+                <Modal title="Get Eternity Plus" className="modal__contents" style={{ backgroundColor: "#c56cd6" }} width="60vw" footer={null} visible={this.state.pricing} onCancel={() => this.openPricing()} onOk={() => this.openPricing()} >
                   <Row type="flex" justify="center">
                     <Col span={12}>
                       <img width="75%" src={calendar} alt="Time Management Illustration" />
