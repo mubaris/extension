@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Slider, Form, Radio, DatePicker, Badge, Input, Select, TimePicker, message } from 'antd';
+import { Slider, Form, Radio, DatePicker, Input, Select, TimePicker } from 'antd';
 import moment from 'moment';
 
-import { subscriptionStatus } from '../../utilities';
+// import { subscriptionStatus } from '../../utilities';
 
 import ga from '../../analytics';
 
@@ -33,7 +33,7 @@ const weekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frid
 class SettingsDisplay extends Component {
   constructor(props) {
     super(props);
-    this.getPackageDetails = this.getPackageDetails.bind(this);
+    // this.getPackageDetails = this.getPackageDetails.bind(this);
     this.isLoggedIn = this.isLoggedIn.bind(this);
     this.onChangeSlider = this.onChangeSlider.bind(this);
     this.onChangeMetric = this.onChangeMetric.bind(this);
@@ -46,27 +46,33 @@ class SettingsDisplay extends Component {
     this.clickPro = this.clickPro.bind(this);
   }
   clickPro() {
-    const pack = this.getPackageDetails();
-    const disb = (pack === 'Pro') ? false : true;
-    if (disb) {
-      const user = JSON.parse(localStorage.getItem('ACCOUNT'));
-      if (user) {
-        message.error('You need to Upgrade to Pro to use this feature');
-        ga.set({ userId: user.user.email });
-        ga.event({
-          category: 'Config',
-          action: 'Click Pro Feature',
-          label: `${localStorage.getItem('PACKAGE')} - User`,
-        });
-      } else {
-        message.error('Sign in and Upgrade to Pro to use this feature');
-        ga.event({
-          category: 'Config',
-          action: 'Click Pro Feature',
-          label: 'FREE - Guest',
-        });
-      }
-    }
+    // const pack = this.getPackageDetails();
+    // const disb = (pack === 'Pro') ? false : true;
+    // const disb = false;
+    // if (disb) {
+    //   const user = JSON.parse(localStorage.getItem('ACCOUNT'));
+    //   if (user) {
+    //     message.error('You need to Upgrade to Pro to use this feature');
+    //     ga.set({ userId: user.user.email });
+    //     ga.event({
+    //       category: 'Config',
+    //       action: 'Click Pro Feature',
+    //       label: `${localStorage.getItem('PACKAGE')} - User`,
+    //     });
+    //   } else {
+    //     message.error('Sign in and Upgrade to Pro to use this feature');
+    //     ga.event({
+    //       category: 'Config',
+    //       action: 'Click Pro Feature',
+    //       label: 'FREE - Guest',
+    //     });
+    //   }
+    // }
+    ga.event({
+      category: 'Config',
+      action: 'Click Pro Feature',
+      label: `FREE - User`,
+    });
   }
   onHourChange(time,timeString) {
     this.props.dispatch({ type: 'CHANGE_DAYSTART', time, timeString });
@@ -76,7 +82,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: 'Change Daystart',
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -94,7 +100,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: 'Change Weekstart',
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -112,7 +118,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: 'Change Subtitle',
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -130,7 +136,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: 'Change Title',
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -153,7 +159,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: 'Change Range',
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -174,7 +180,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: 'Change Decimal',
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
         value
       });
     } else{
@@ -198,7 +204,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: `Change Metric to ${value}`,
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -220,7 +226,7 @@ class SettingsDisplay extends Component {
       ga.event({
         category: 'Config',
         action: `Change BG to ${value}`,
-        label: `${localStorage.getItem('PACKAGE')} - User`,
+        label: `FREE - User`,
       });
     } else{
       ga.event({
@@ -238,31 +244,32 @@ class SettingsDisplay extends Component {
     }
     return false;
   }
-  getPackageDetails() {
-    if (this.isLoggedIn()) {
-      const pack = this.props.accounts.package;
-      if (pack === 'FREE') {
-        return 'Free';
-      } else if (pack === 'PAID') {
-        return 'Pro';
-      } else {
-        return 'Free';
-      }
-    } else {
-      return 'Free';
-    }
-  }
-  componentDidMount() {
-    if (this.isLoggedIn()) {
-      const account = JSON.parse(localStorage.getItem('ACCOUNT'));
-      subscriptionStatus(account.user.email)
-      .then(data => this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data }))
-      .catch(reason => console.log(reason.message));
-    }
-  }
+  // getPackageDetails() {
+  //   if (this.isLoggedIn()) {
+  //     const pack = this.props.accounts.package;
+  //     if (pack === 'FREE') {
+  //       return 'Free';
+  //     } else if (pack === 'PAID') {
+  //       return 'Pro';
+  //     } else {
+  //       return 'Free';
+  //     }
+  //   } else {
+  //     return 'Free';
+  //   }
+  // }
+  // componentDidMount() {
+  //   if (this.isLoggedIn()) {
+  //     const account = JSON.parse(localStorage.getItem('ACCOUNT'));
+  //     subscriptionStatus(account.user.email)
+  //     .then(data => this.props.dispatch({ type: 'SUBSCRIPTION_STATUS', data }))
+  //     .catch(reason => console.log(reason.message));
+  //   }
+  // }
   render() {
-    const pack = this.getPackageDetails();
-    const disb = (pack === 'Pro') ? false : true;
+    // const pack = this.getPackageDetails();
+    // const disb = (pack === 'Pro') ? false : true;
+    const disb = false;
     let datepicker = '';
     if (this.props.progress.custom_start) {
       datepicker = (<RangePicker 
@@ -319,7 +326,7 @@ class SettingsDisplay extends Component {
             <Radio value="month">Month</Radio>
             <Radio value="week">Week</Radio>
             <Radio value="day">Day</Radio>
-            <Radio value="custom" disabled={disb}><span onClick={this.clickPro}>Custom </span><Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></Radio>
+            <Radio value="custom" disabled={disb}><span onClick={this.clickPro}>Custom </span></Radio>
           </RadioGroup>
         </Form.Item>
         <Form.Item
@@ -330,10 +337,10 @@ class SettingsDisplay extends Component {
           <RadioGroup value={this.props.imageUrl.type} onChange={this.onChangeType}>
             <Radio value="image">Daily Image</Radio>
             <Radio value="gradient">Random Gradient</Radio>
-            <Radio value="trianglify">Trianglify <Badge count="New" style={{ backgroundColor: '#1890ff' }} /></Radio>
+            <Radio value="trianglify">Trianglify</Radio>
           </RadioGroup>
         </Form.Item>
-        <h3>Custom Progress Bar <Badge count="Pro" style={{ backgroundColor: '#52c41a' }} /></h3>
+        <h3>Custom Progress Bar</h3>
         <div onClick={this.clickPro}>
           <Form.Item
             {...formItemLayout}
