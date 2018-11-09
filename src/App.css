@@ -106,7 +106,7 @@ span, label, div, input {
 }
 
 .progress__bar {
-  margin: 1%;
+  margin: 3%;
   text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
 }
 

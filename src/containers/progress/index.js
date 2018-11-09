@@ -91,7 +91,7 @@ class ProgressDisplay extends Component {
         <h1 className="white header__progress" onClick={this.clickMetric}>
           {displayMetric} <span>Progress</span>
         </h1>
-        <div style={{ height: '8%', width: '80%' }} className="progress__bar">
+        <div style={{ height: '8%', width: '100%' }} className="progress__bar">
           <Line
             percent={this.props.progress.percent}
             strokeWidth={1}
