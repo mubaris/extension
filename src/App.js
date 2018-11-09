@@ -69,7 +69,7 @@ class App extends Component {
                 <Config style={{ padding: 0 }} />
               </Col>
               <Col span={4}>
-                <Accounts />
+                {/* <Accounts /> */}
               </Col>
             </Row>
           </Header>
