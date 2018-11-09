@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700|Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700|IBM+Plex+Sans');
 
 body, h1, h2, h3, h4, h5, h6, p {
   color: rgb(255, 255, 255);
@@ -88,7 +88,7 @@ span, label, div, input {
 }
 
 .percent {
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'IBM Plex Sans', monospace;
   color: rgb(255, 255, 255) !important;
   white-space: pre-wrap;
   font-size: 400%;
