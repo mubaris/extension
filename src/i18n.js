@@ -1,0 +1,100 @@
+
+const resource = {
+    "en": {
+        "settings": "Settings",
+        "language": "Language",
+        "general_settings": "General Settings",
+        "decimal_points": "Decimal Points",
+        "progress_metric": "Progress Metric",
+        "year": "Year",
+        "month": "Month",
+        "week": "Week",
+        "day": "Day",
+        "hour": "Hour",
+        "custom": "Custom",
+        "background": "Background",
+        "daily_image": "Daily Image",
+        "random_gradient": "Random Gradient",
+        "trianglify": "Trianglify",
+        "custom_progress_bar": "Custom Progress Bar",
+        "interval": "Interval",
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "start_of_the_week": "Start of the week",
+        "start_of_the_day": "Start of the day",
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "progress": " Progress",
+        "year_progress": "Year Progress",
+        "month_progress": "Month Progress",
+        "week_progress": "Week Progress",
+        "day_progress": "Day Progress",
+        "hour_progress": "Hour Progress",
+        "custom_progress": "Custom Progress",
+        "success": "Success",
+        "settings_saved": "Settings Saved",
+        "title_of_custom_progress_bar": "Title of Custom Progress Bar",
+        "start_time": "Start Time",
+        "end_time": "End Time",
+        "select_time": "Select Time"
+    },
+    "ja": {
+        "settings": "設定",
+        "language": "言語",
+        "general_settings": "一般設定",
+        "decimal_points": "小数点",
+        "progress_metric": "進捗メトリック",
+        "year": "年",
+        "month": "月",
+        "week": "週",
+        "day": "日",
+        "hour": "時間",
+        "custom": "カスタム",
+        "background": "バックグラウンド",
+        "daily_image": "毎日の画像",
+        "random_gradient": "ランダムグラデーションカラー",
+        "trianglify": "「Trianglify」",
+        "custom_progress_bar": "カスタムプログレスバー",
+        "interval": "時間間隔",
+        "title": "タイトル",
+        "subtitle": "サブタイトル",
+        "start_of_the_week": "週の始まり",
+        "start_of_the_day": "一日の始まり",
+        "sunday": "日曜日",
+        "monday": "月曜",
+        "tuesday": "火曜日",
+        "wednesday": "水曜日",
+        "thursday": "木曜日",
+        "friday": "金曜日",
+        "saturday": "土曜日",
+        "progress": "の進捗状況",
+        "year_progress": "年の進捗状況",
+        "month_progress": "月の進行状況",
+        "week_progress": "週の進行状況",
+        "day_progress": "日の進行状況",
+        "hour_progress": "時間の進行状況",
+        "custom_progress": "カスタム進捗状況",
+        "success": "成功",
+        "settings_saved": "保存された設定",
+        "title_of_custom_progress_bar": "カスタムプログレスバーのタイトル",
+        "start_time": "始まる時間",
+        "end_time": "終了時間",
+        "select_time": "時間を選択"
+    }
+}
+
+function t(lng, key) {
+    let l = lng;
+    if (!l) {
+        l = 'en';
+    }
+    const k = key.toLowerCase().split(' ').join('_');
+    return resource[l][k];
+}
+
+export default t;

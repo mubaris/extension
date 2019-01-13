@@ -1,0 +1,10 @@
+{
+    "appName": {
+        "message": "Eternity",
+        "description": "The title of the application, displayed in the web store."
+    },
+    "appDesc": {
+        "message": "Keep track of your growth with progress bars!",
+        "description": "The description of the application, displayed in the web store."
+    }
+}

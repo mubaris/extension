@@ -6,6 +6,7 @@ import moment from 'moment';
 // import { subscriptionStatus } from '../../utilities';
 
 import ga from '../../analytics';
+import t from '../../i18n';
 
 const { RangePicker } = DatePicker;
 
@@ -25,8 +26,6 @@ const style = {
 
 const dateFormat = 'YYYY-MM-DD HH:mm';
 
-const weekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 // const hourArray = ['12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM',
 //                     '11AM', '12PM', '1PM', '2PM', ]
 
@@ -37,6 +36,7 @@ class SettingsDisplay extends Component {
     this.isLoggedIn = this.isLoggedIn.bind(this);
     this.onChangeSlider = this.onChangeSlider.bind(this);
     this.onChangeMetric = this.onChangeMetric.bind(this);
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
     this.onRangeChange = this.onRangeChange.bind(this);
     this.onChangeTitle = this.onChangeTitle.bind(this);
@@ -44,6 +44,35 @@ class SettingsDisplay extends Component {
     this.onWeekdayChange = this.onWeekdayChange.bind(this);
     this.onHourChange = this.onHourChange.bind(this);
     this.clickPro = this.clickPro.bind(this);
+    this.getDefaultWeekDay = this.getDefaultWeekDay.bind(this);
+    this.translate = this.translate.bind(this);
+
+    this.lang = this.props.progress.language;
+
+    this.weekArray = [
+      t(this.props.progress.language, 'Sunday'), 
+      t(this.props.progress.language, 'Monday'),
+      t(this.props.progress.language, 'Tuesday'),
+      t(this.props.progress.language, 'Wednesday'),
+      t(this.props.progress.language, 'Thursday'),
+      t(this.props.progress.language, 'Friday'),
+      t(this.props.progress.language, 'Saturday')
+    ];
+  }
+  getDefaultWeekDay() {
+    const weekArray = [
+      t(this.props.progress.language, 'Sunday'), 
+      t(this.props.progress.language, 'Monday'),
+      t(this.props.progress.language, 'Tuesday'),
+      t(this.props.progress.language, 'Wednesday'),
+      t(this.props.progress.language, 'Thursday'),
+      t(this.props.progress.language, 'Friday'),
+      t(this.props.progress.language, 'Saturday')
+    ];
+    return weekArray[this.props.progress.custom_weekday];
+  }
+  translate(key) {
+    return t(this.props.progress.language, key);
   }
   clickPro() {
     // const pack = this.getPackageDetails();
@@ -214,6 +243,18 @@ class SettingsDisplay extends Component {
       });
     }
   }
+  onChangeLanguage(e) {
+    const value = e.target.value;
+    this.props.dispatch({
+      type: 'LANGUAGE_CHANGE',
+      value
+    });
+    ga.event({
+      category: 'Config',
+      action: `Change Language to ${value}`,
+      label: 'User',
+    });
+  }
   onChangeType(e) {
     const value = e.target.value;
     this.props.dispatch({
@@ -276,7 +317,7 @@ class SettingsDisplay extends Component {
         showTime={{ format: 'HH:mm' }}
         disabled={disb}
         format={dateFormat}
-        placeholder={['Start Time', 'End Time']}
+        placeholder={[this.translate('Start Time'), this.translate('End Time')]}
         defaultValue={[moment(this.props.progress.custom_start, dateFormat), 
           moment(this.props.progress.custom_end, dateFormat)]}
         onChange={this.onRangeChange} 
@@ -286,7 +327,7 @@ class SettingsDisplay extends Component {
         showTime={{ format: 'HH:mm' }}
         disabled={disb}
         format={dateFormat}
-        placeholder={['Start Time', 'End Time']}
+        placeholder={[this.translate('Start Time'), this.translate('End Time')]}
         onChange={this.onRangeChange} 
       />);
     }
@@ -297,6 +338,7 @@ class SettingsDisplay extends Component {
         disabled={disb}
         minuteStep={15}
         defaultValue={moment(this.props.progress.custom_hour, "HH")}
+        placeholder={this.translate('Select Time')}
         onChange={this.onHourChange} 
         />);
     } else {
@@ -304,89 +346,100 @@ class SettingsDisplay extends Component {
         format="HH:mm"
         minuteStep={15}
         disabled={disb}
+        placeholder={this.translate('Select Time')}
         onChange={this.onHourChange} 
         />);
     }
     return (
       <div className="modal__contents" style={style}>
-        <h3>General Settings</h3>
+        <h3><b>{this.translate('General Settings')}</b></h3>
         <hr/>
         <Form.Item
           {...formItemLayout}
-          label="Decimal Points"
+          label={this.translate('Language')}
+        >
+          <RadioGroup value={this.props.progress.language} onChange={this.onChangeLanguage}>
+            <Radio value="en">English</Radio>
+            <Radio value="ja">日本語</Radio>
+          </RadioGroup>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={this.translate('Decimal Points')}
         >
           <Slider min={1} max={12} onChange={this.onChangeSlider} value={this.props.progress.decimal} />
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label="Progress Metric"
+          label={this.translate('Progress Metric')}
         >
           <RadioGroup value={this.props.progress.metric} onChange={this.onChangeMetric}>
-            <Radio value="year">Year</Radio>
-            <Radio value="month">Month</Radio>
-            <Radio value="week">Week</Radio>
-            <Radio value="day">Day</Radio>
-            <Radio value="custom" disabled={disb}><span onClick={this.clickPro}>Custom </span></Radio>
+            <Radio value="year">{this.translate('Year')}</Radio>
+            <Radio value="month">{this.translate('Month')}</Radio>
+            <Radio value="week">{this.translate('Week')}</Radio>
+            <Radio value="day">{this.translate('Day')}</Radio>
+            <Radio value="hour">{this.translate('Hour')}</Radio>
+            <Radio value="custom">{this.translate('Custom')}</Radio>
           </RadioGroup>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label="Background"
+          label={this.translate('Background')}
           style={{ flexGrow: 1 }}
         >
           <RadioGroup value={this.props.imageUrl.type} onChange={this.onChangeType}>
-            <Radio value="image">Daily Image</Radio>
-            <Radio value="gradient">Random Gradient</Radio>
-            <Radio value="trianglify">Trianglify</Radio>
+            <Radio value="image">{this.translate('Daily Image')}</Radio>
+            <Radio value="gradient">{this.translate('Random Gradient')}</Radio>
+            <Radio value="trianglify">{this.translate('Trianglify')}</Radio>
           </RadioGroup>
         </Form.Item>
-        <h3>Custom Progress Bar</h3>
+        <h3><b>{this.translate('Custom Progress Bar')}</b></h3>
         <div onClick={this.clickPro}>
           <Form.Item
             {...formItemLayout}
-            label="Interval"
+            label={this.translate('Interval')}
           >
             {datepicker}
           </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Title"
+            label={this.translate('Title')}
           >
             <Input 
               onChange={this.onChangeTitle}
-              placeholder="Title of Custom Progress Bar"
+              placeholder={this.translate('Title of Custom Progress Bar')}
               disabled={disb}
               defaultValue={this.props.progress.custom_title}
             />
           </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Subtitle"
+            label={this.translate('Subtitle')}
           >
             <Input 
               onChange={this.onChangeSubtitle}
-              placeholder="Subtitle"
+              placeholder={this.translate('Subtitle')}
               disabled={disb}
               defaultValue={this.props.progress.custom_subtitle}
             />
           </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Start of the week"
+            label={this.translate('Start of the week')}
           >
-            <Select disabled={disb} defaultValue={weekArray[this.props.progress.custom_weekday]} onChange={this.onWeekdayChange}>
-              <Option value={0}>Sunday</Option>
-              <Option value={1}>Monday</Option>
-              <Option value={2}>Tuesday</Option>
-              <Option value={3}>Wednesday</Option>
-              <Option value={4}>Thursday</Option>
-              <Option value={5}>Friday</Option>
-              <Option value={6}>Saturday</Option>
+            <Select disabled={disb} defaultValue={this.getDefaultWeekDay()} onChange={this.onWeekdayChange}>
+              <Option value={0}>{t(this.props.progress.language, 'Sunday')}</Option>
+              <Option value={1}>{t(this.props.progress.language, 'Monday')}</Option>
+              <Option value={2}>{t(this.props.progress.language, 'Tuesday')}</Option>
+              <Option value={3}>{t(this.props.progress.language, 'Wednesday')}</Option>
+              <Option value={4}>{t(this.props.progress.language, 'Thursday')}</Option>
+              <Option value={5}>{t(this.props.progress.language, 'Friday')}</Option>
+              <Option value={6}>{t(this.props.progress.language, 'Saturday')}</Option>
             </Select>
           </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Start of the day"
+            label={this.translate('Start of the day')}
           >
             {timepicker}
           </Form.Item>

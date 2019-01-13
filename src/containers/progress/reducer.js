@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+window.moment = moment;
+
 const initalState = {
   metric: localStorage.getItem('metric') || 'year',
   decimal: localStorage.getItem('decimal') || 2,
@@ -8,7 +10,8 @@ const initalState = {
   custom_title: localStorage.getItem('custom_title') || 'Custom',
   custom_subtitle: localStorage.getItem('custom_subtitle') || '',
   custom_weekday: localStorage.getItem('custom_weekday') || 0,
-  custom_hour: localStorage.getItem('custom_hour') || 0
+  custom_hour: localStorage.getItem('custom_hour') || 0,
+  language: localStorage.getItem('language') || 'en'
 };
 
 const dateFormat = 'YYYY-MM-DD HH:mm';
@@ -91,12 +94,18 @@ const progressReducer = (state = initalState, action) => {
             metric: 'custom'
           }
         }
-        localStorage.setItem('metric', 'day');
+        localStorage.setItem('metric', 'hour');
         return {
           ...state,
-          metric: 'day'
+          metric: 'hour'
         }
       } else if (state.metric === 'custom') {
+        localStorage.setItem('metric', 'hour');
+        return {
+          ...state,
+          metric: 'hour'
+        }
+      } else if (state.metric === 'hour') {
         localStorage.setItem('metric', 'day');
         return {
           ...state,
@@ -167,6 +176,12 @@ const progressReducer = (state = initalState, action) => {
       return {
         ...state,
         custom_weekday: action.value
+      }
+    case 'LANGUAGE_CHANGE':
+      localStorage.setItem('language', action.value);
+      return {
+        ...state,
+        language: action.value
       }
     default:
       return state;

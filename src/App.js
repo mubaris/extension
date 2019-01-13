@@ -9,7 +9,7 @@ import Progress from './containers/progress';
 import Quote from './containers/quote';
 import Time from './containers/time';
 import Config from './containers/config';
-import Accounts from './containers/accounts';
+// import Accounts from './containers/accounts';
 import gradient from './constants/gradients';
 
 import 'antd/dist/antd.css';

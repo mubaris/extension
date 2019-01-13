@@ -12,14 +12,15 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "description": "Keep track of your growth with progress bars!",
+  "default_locale": "en",
+  "description": "__MSG_appDesc__",
   "icons": {
     "128": "icon128.png",
     "16": "icon16.png",
     "48": "icon48.png"
   },
   "manifest_version": 2,
-  "name": "Eternity",
+  "name": "__MSG_appName__",
   "offline_enabled": true,
   "permissions": [
     "gcm",
@@ -28,7 +29,7 @@
     "identity"
   ],
   "short_name": "Eternity",
-  "version": "2.5.5",
+  "version": "2.6",
   "web_accessible_resources": [
     "index.html"
   ],

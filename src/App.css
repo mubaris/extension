@@ -202,6 +202,10 @@ svg.rc-progress-line {
   border-radius: 22px;
 }
 
+.ant-modal-title {
+  font-weight: bold;
+}
+
 /* .ant-radio-button-wrapper-checked {
   border-color: #c56cd6;
   color: #c56cd6;

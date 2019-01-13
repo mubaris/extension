@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
 import { notification } from 'antd';
 import ga from '../../analytics';
+import t from '../../i18n';
 //  import moment from 'moment';
 
 const progressStyles = {
@@ -16,6 +17,7 @@ class ProgressDisplay extends Component {
   constructor(props) {
     super(props);
     this.clickMetric = this.clickMetric.bind(this);
+    this.translate = this.translate.bind(this);
 
     // const addit = moment.duration("22:00");
     // const start = moment().startOf('day').add(addit);
@@ -43,6 +45,9 @@ class ProgressDisplay extends Component {
     // }
     // const out = percent.toFixed(2);
     // console.log(start, end, out);
+  }
+  translate(key) {
+    return t(this.props.progress.language, key);
   }
   openNotificationWithIcon = (type, send) => {
     notification[type]({
@@ -82,14 +87,14 @@ class ProgressDisplay extends Component {
   }
   render() {
     const metric = this.props.progress.metric;
-    let displayMetric = metric.charAt(0).toUpperCase() + metric.slice(1).toLowerCase();
+    let displayMetric = this.translate(metric.charAt(0).toUpperCase() + metric.slice(1).toLowerCase());
     if (metric === 'custom') {
-      displayMetric = this.props.progress.custom_title;
+      displayMetric = this.translate(this.props.progress.custom_title);
     }
     return (
       <div style={{ height: '100%' }} className="center__bar">
         <h1 className="white header__progress" onClick={this.clickMetric}>
-          {displayMetric} <span>Progress</span>
+          {displayMetric}<span>{this.translate('Progress')}</span>
         </h1>
         <div style={{ height: '8%', width: '100%' }} className="progress__bar">
           <Line
