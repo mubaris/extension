@@ -335,7 +335,6 @@ class SettingsDisplay extends Component {
     if (this.props.progress.custom_hour) {
       timepicker = (<TimePicker 
         format="HH:mm"
-        disabled={disb}
         minuteStep={15}
         defaultValue={moment(this.props.progress.custom_hour, "HH")}
         placeholder={this.translate('Select Time')}
@@ -345,7 +344,6 @@ class SettingsDisplay extends Component {
       timepicker = (<TimePicker 
         format="HH:mm"
         minuteStep={15}
-        disabled={disb}
         placeholder={this.translate('Select Time')}
         onChange={this.onHourChange} 
         />);
@@ -361,6 +359,7 @@ class SettingsDisplay extends Component {
           <RadioGroup value={this.props.progress.language} onChange={this.onChangeLanguage}>
             <Radio value="en">English</Radio>
             <Radio value="ja">日本語</Radio>
+            <Radio value="ru">Ру́сский</Radio>
           </RadioGroup>
         </Form.Item>
         <Form.Item
