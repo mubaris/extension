@@ -9,7 +9,7 @@ import Progress from './containers/progress';
 import Quote from './containers/quote';
 import Time from './containers/time';
 import Config from './containers/config';
-// import Accounts from './containers/accounts';
+import Image from './containers/image';
 import gradient from './constants/gradients';
 
 import 'antd/dist/antd.css';
@@ -68,8 +68,8 @@ class App extends Component {
               <Col span={4}>
                 <Config style={{ padding: 0 }} />
               </Col>
-              <Col span={4}>
-                {/* <Accounts /> */}
+              <Col span={4} style={{ textAlign: 'right' }}>
+                {/* <Time /> */}
               </Col>
             </Row>
           </Header>
@@ -83,13 +83,14 @@ class App extends Component {
           <Footer className="layout__footer">
             <Row type="flex" align="bottom" style={{ height: "100%" }}>
               <Col span={6} style={{ textAlign: 'left' }}>
-                <Time />
+                <Image />
               </Col>
               <Col span={12} style={{ textAlign: 'center' }}>
                 <Quote />
               </Col>
               <Col span={6} style={{ textAlign: 'right' }}>
-                <a href="https://twitter.com/Mubaris_NK" target="_blank" rel="noopener noreferrer" className="author__text">Made with ♥ by Mubaris NK</a>
+                {/* <a href="https://twitter.com/Mubaris_NK" target="_blank" rel="noopener noreferrer" className="author__text">Made with ♥ by Mubaris NK</a> */}
+                <Time />
               </Col>
             </Row>
           </Footer>

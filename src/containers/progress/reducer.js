@@ -1,6 +1,13 @@
 import moment from 'moment';
 
-window.moment = moment;
+/* global chrome */
+// let ln = 'chrome.i18n.getUILanguage()';
+let ln = 'en';
+ln = ln.substring(0, 2);
+
+if (!(ln === 'en' || ln === 'ru' || ln === 'ja')) {
+  ln = ''
+}
 
 const initalState = {
   metric: localStorage.getItem('metric') || 'year',
@@ -11,7 +18,7 @@ const initalState = {
   custom_subtitle: localStorage.getItem('custom_subtitle') || '',
   custom_weekday: localStorage.getItem('custom_weekday') || 0,
   custom_hour: localStorage.getItem('custom_hour') || 0,
-  language: localStorage.getItem('language') || 'en'
+  language: localStorage.getItem('language') || ln || 'en'
 };
 
 const dateFormat = 'YYYY-MM-DD HH:mm';
