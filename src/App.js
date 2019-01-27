@@ -10,6 +10,7 @@ import Quote from './containers/quote';
 import Time from './containers/time';
 import Config from './containers/config';
 import Image from './containers/image';
+// import Toggle from './containers/toggle';
 import gradient from './constants/gradients';
 
 import 'antd/dist/antd.css';
@@ -69,7 +70,7 @@ class App extends Component {
                 <Config style={{ padding: 0 }} />
               </Col>
               <Col span={4} style={{ textAlign: 'right' }}>
-                {/* <Time /> */}
+                {/* <Toggle /> */}
               </Col>
             </Row>
           </Header>

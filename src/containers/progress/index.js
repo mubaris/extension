@@ -89,7 +89,7 @@ class ProgressDisplay extends Component {
     const metric = this.props.progress.metric;
     let displayMetric = this.translate(metric.charAt(0).toUpperCase() + metric.slice(1).toLowerCase());
     if (metric === 'custom') {
-      displayMetric = this.translate(this.props.progress.custom_title);
+      displayMetric = this.props.progress.custom_title;
     }
     return (
       <div style={{ height: '100%' }} className="center__bar">
