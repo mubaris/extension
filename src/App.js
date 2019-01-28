@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Trianglify from 'trianglify';
+import PropTypes from 'prop-types';
 
 import Progress from './containers/progress';
 import Quote from './containers/quote';
@@ -24,17 +25,23 @@ class App extends Component {
     const day = moment().format("YYYYMMDD");
     const localDay = localStorage.getItem('date');
     if (localDay !== day) {
+      console.log("C ", day);
       axios.get(`https://api.eternityapp.co/v1/images/${day}`)
         .then((res) => {
-          let imageUrl = res.data.image + `&w=${window.screen.width + 500}`;
-          const bg = new Image();
-          bg.src = imageUrl;
+          let url = res.data.image + `&w=${window.screen.width + 500}`;
+          const bg = document.createElement('img');
+          console.log("D ");
+          bg.src = url;
+          console.log("B ", url);
           bg.onload = () => {
-            console.log(imageUrl);
+            console.log(url);
             this.props.dispatch({ type: 'BG_IMAGE_FETCH', data: res.data });
           };
         })
-        .catch(() => {});
+        .catch((err) => {
+          console.log("E ", err);
+          throw err;
+        });
     }
   }
   render() {
@@ -111,6 +118,10 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
   };
+}
+
+App.contextTypes = {
+  store: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

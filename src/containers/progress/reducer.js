@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 /* global chrome */
-// let ln = 'chrome.i18n.getUILanguage()';
-let ln = 'en';
+let ln = 'chrome.i18n.getUILanguage()';
+// let ln = 'en';
 ln = ln.substring(0, 2);
 
 if (!(ln === 'en' || ln === 'ru' || ln === 'ja')) {
