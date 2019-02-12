@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 /* global chrome */
-let ln = 'chrome.i18n.getUILanguage()';
+let ln = chrome.i18n.getUILanguage();
 // let ln = 'en';
 ln = ln.substring(0, 2);
 
@@ -18,7 +18,8 @@ const initalState = {
   custom_subtitle: localStorage.getItem('custom_subtitle') || '',
   custom_weekday: localStorage.getItem('custom_weekday') || 0,
   custom_hour: localStorage.getItem('custom_hour') || 0,
-  language: localStorage.getItem('language') || ln || 'en'
+  language: localStorage.getItem('language') || ln || 'en',
+  minimal: localStorage.getItem('minimal') || 'progress'
 };
 
 const dateFormat = 'YYYY-MM-DD HH:mm';
@@ -188,6 +189,19 @@ const progressReducer = (state = initalState, action) => {
       return {
         ...state,
         language: action.value
+      }
+    case 'CLICK_MINIMAL_PROGRESS':
+      if (state.minimal === 'progress') {
+        localStorage.setItem('minimal', 'time');
+        return {
+          ...state,
+          minimal: 'time'
+        }
+      }
+      localStorage.setItem('minimal', 'progress');
+      return {
+        ...state,
+        minimal: 'progress'
       }
     default:
       return state;

@@ -7,6 +7,7 @@ import { configReducer } from './containers/config/reducer';
 import { accountReducer } from './containers/accounts/reducer';
 import { signupReducer } from './containers/signup/reducer';
 import { signinReducer } from './containers/signin/reducer';
+import { toggleReducer } from './containers/toggle/reducer';
 
 const IndexReducer = combineReducers({
   imageUrl: imageReducer,
@@ -17,6 +18,7 @@ const IndexReducer = combineReducers({
   accounts: accountReducer,
   signup: signupReducer,
   signin: signinReducer,
+  distraction: toggleReducer,
 });
 
 export default IndexReducer;

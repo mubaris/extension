@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700|IBM+Plex+Sans');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
 body, h1, h2, h3, h4, h5, h6, p {
   color: rgb(255, 255, 255);
@@ -29,8 +30,21 @@ span, label, div, input {
   color: rgb(255, 255, 255);
 }
 
+.layout__dark {
+  background: #21252b;
+  height: 100%;
+  width: 100%;
+  color: #fafafa;
+}
+
 .layout__header {
   background: rgba(255, 255, 255, 0);
+  height: 10%;
+  padding: 10px 20px;
+}
+
+.layout__header__dark {
+  background: #21252b;
   height: 10%;
   padding: 10px 20px;
 }
@@ -41,10 +55,23 @@ span, label, div, input {
   color: rgb(255, 255, 255) !important;
 }
 
+.layout__content__dark {
+  background: #21252b;
+  height: 80%;
+  color: #fafafa !important;
+}
+
 .layout__footer {
   background: rgba(255, 255, 255, 0);
   height: 10%;
   color: rgb(255, 255, 255);
+  padding: 10px 20px;
+}
+
+.layout__footer__dark {
+  background: #21252b;
+  height: 10%;
+  color: #fafafa;
   padding: 10px 20px;
 }
 
@@ -95,6 +122,11 @@ span, label, div, input {
   text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
 }
 
+.percent.dark {
+  font-size: 1000%;
+  font-family: 'Inconsolata', monospace;
+}
+
 .subtitle {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Work Sans', sans-serif;
   color: rgb(255, 255, 255) !important;
@@ -103,6 +135,11 @@ span, label, div, input {
   margin: 0;
   padding: 0;
   text-shadow: rgba(0,0,0,.1) 2px 5px 10px;
+}
+
+.subtitle.dark {
+  font-size: 400%;
+  font-family: 'Inconsolata', monospace;
 }
 
 .progress__bar {
@@ -204,6 +241,132 @@ svg.rc-progress-line {
 
 .ant-modal-title {
   font-weight: bold;
+}
+
+.ant-switch {
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.65);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 32px;
+  min-width: 72px;
+  line-height: 30px;
+  vertical-align: middle;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  background-color: rgba(0,0,0,0.25);
+  cursor: pointer;
+  -webkit-transition: all .36s;
+  transition: all .36s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
+}
+
+.ant-switch-loading-icon,.ant-switch:after {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  left: 1px;
+  top: 1px;
+  border-radius: 28px;
+  background-color: #fff;
+  content: ' ';
+  cursor: pointer;
+  -webkit-transition: all .36s cubic-bezier(.78, .14, .15, .86);
+  transition: all .36s cubic-bezier(.78, .14, .15, .86)
+}
+
+.ant-switch:after {
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0,35,11,0.2);
+  box-shadow: 0 2px 4px 0 rgba(0,35,11,0.2)
+}
+
+.ant-switch:active:before,.ant-switch:active:after {
+  width: 24px
+}
+
+.ant-switch-inner {
+  color: #fff;
+  font-size: 20px;
+  margin-left: 24px;
+  margin-right: 6px;
+  display: block;
+}
+
+.ant-switch-loading-icon {
+  background: transparent;
+  z-index: 1;
+  display: none;
+  font-size: 12px
+}
+
+.ant-switch-loading-icon svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto
+}
+
+.ant-switch-loading .ant-switch-loading-icon {
+  display: inline-block;
+  color: rgba(0,0,0,0.65)
+}
+
+.ant-switch-checked.ant-switch-loading .ant-switch-loading-icon {
+  color: #1890ff
+}
+
+.ant-switch:focus {
+  -webkit-box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
+  box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
+  outline: 0
+}
+
+.ant-switch:focus:hover {
+  -webkit-box-shadow: none;
+  box-shadow: none
+}
+
+.ant-switch-checked {
+  background-color: #1890ff
+}
+
+.ant-switch-checked .ant-switch-inner {
+  margin-left: 6px;
+  margin-right: 34px;
+}
+
+.ant-switch-checked:after {
+  left: 100%;
+  -webkit-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  transform: translateX(-100%);
+  margin-left: -1px
+}
+
+.ant-switch-checked .ant-switch-loading-icon {
+  left: 100%;
+  margin-left: -19px
+}
+
+.ant-switch-loading,.ant-switch-disabled {
+  cursor: not-allowed;
+  opacity: .4
+}
+
+.ant-switch-loading *,.ant-switch-disabled * {
+  cursor: not-allowed
 }
 
 /* .ant-radio-button-wrapper-checked {

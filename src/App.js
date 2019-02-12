@@ -11,7 +11,8 @@ import Quote from './containers/quote';
 import Time from './containers/time';
 import Config from './containers/config';
 import Image from './containers/image';
-// import Toggle from './containers/toggle';
+import Toggle from './containers/toggle';
+import MinimalProgress from './containers/minimalProgress';
 import gradient from './constants/gradients';
 
 import 'antd/dist/antd.css';
@@ -68,6 +69,31 @@ class App extends Component {
         backgroundImage: tria,
       };
     }
+    if (this.props.distraction.status) {
+      return (
+        <div className="container__layout">
+          <Layout className="layout__dark">
+            <Header className="layout__header__dark">
+              <Row type="flex" justify="space-between" align="top" style={{ height: "100%" }}>
+                <Col span={4}>
+                  {/* <Config style={{ padding: 0 }} /> */}
+                </Col>
+                <Col span={4} style={{ textAlign: 'right' }}>
+                  <Toggle />
+                </Col>
+              </Row>
+            </Header>
+            <Content style={{ textAlign: 'center' }} className="layout__content">
+              <Row type="flex" align="middle" className="full__height">
+                <Col span={18} offset={3} className="full__height center__content">
+                  <MinimalProgress />
+                </Col>
+              </Row>
+            </Content>
+          </Layout>
+        </div>
+      )
+    } 
     return (
       <div className="container__layout" style={ style }>
         <Layout className="layout">
@@ -77,7 +103,7 @@ class App extends Component {
                 <Config style={{ padding: 0 }} />
               </Col>
               <Col span={4} style={{ textAlign: 'right' }}>
-                {/* <Toggle /> */}
+                <Toggle />
               </Col>
             </Row>
           </Header>
@@ -110,7 +136,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    imageUrl: state.imageUrl
+    imageUrl: state.imageUrl,
+    distraction: state.distraction
   };
 }
 
