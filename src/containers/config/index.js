@@ -80,6 +80,7 @@ class Config extends Component {
           onCancel={this.handleVisibleChange}
           footer={[
             <a href="https://goo.gl/forms/RGiQYX9BB1aF5OCL2" target="_blank" rel="noopener noreferrer">Help me translate Eternity </a>,
+            <a href="https://progress-dash.featuremonkey.com/" target="_blank" rel="noopener noreferrer"> | Feature requests </a>,
             <a href="https://buymeacoff.ee/mubaris" onClick={this.clickCoffee} target="_blank" rel="noopener noreferrer">
               <img src="bmc.png" alt="Buy Me A Coffee" />
             </a>
